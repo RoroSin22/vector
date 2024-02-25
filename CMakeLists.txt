@@ -4,9 +4,10 @@ project(C)
 set(CMAKE_C_STANDARD 11)
 
 add_executable(main.c
-        ordered_set.h
-        bit_set.h
+        libs/ordered_set.h
+        libs/bit_set.h
         main.c
-        array.h
-        unordered_set.h
+        libs/array.h
+        libs/unordered_set.h
+        libs/vector.h
 )
