@@ -19,6 +19,11 @@ ordered_array_set ordered_array_set_create(size_t capacity) {
     set.data = (int *) malloc(capacity * sizeof(int));
     set.size = 0;
     set.capacity = capacity;
+
+    for (size_t i = 0; i < set.capacity; i++) {
+        set.data[i] = 0;
+    }
+
     return set;
 }
 
