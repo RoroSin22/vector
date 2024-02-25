@@ -24,9 +24,9 @@ bitset bitset_create(unsigned maxValue) {
 }
 
 bool bitset_in(bitset set, uint32_t value) {
-    if (value > set.maxValue) {
+    if (value > set.maxValue)
         return false;
-    }
+
     uint32_t index = value / 32;
     uint32_t bitOffset = value % 32;
 
@@ -34,9 +34,9 @@ bool bitset_in(bitset set, uint32_t value) {
 }
 
 void bitset_insert(bitset *set, uint32_t value) {
-    if (value > set->maxValue) {
+    if (value > set->maxValue)
         return;
-    }
+
 
     uint32_t index = value / 32;
     uint32_t bitOffset = value % 32;
@@ -45,30 +45,28 @@ void bitset_insert(bitset *set, uint32_t value) {
 }
 
 bool bitset_isEqual(bitset set1, bitset set2) {
-    if (set1.maxValue != set2.maxValue) {
+    if (set1.maxValue != set2.maxValue)
         return false;
-    }
+
 
     uint32_t arraySize = (set1.maxValue + 31) / 32;
-    for (uint32_t i = 0; i < arraySize; ++i) {
-        if (set1.values[i] != set2.values[i]) {
+    for (uint32_t i = 0; i < arraySize; i++) {
+        if (set1.values[i] != set2.values[i])
             return false;
-        }
     }
     return true;
 }
 
 bool bitset_isSubset(bitset set1, bitset set2) {
-    if (set1.maxValue > set2.maxValue) {
+    if (set1.maxValue > set2.maxValue)
         return false;
-    }
 
     uint32_t arraySize = (set1.maxValue + 31) / 32;
-    for (uint32_t i = 0; i < arraySize; ++i) {
-        if ((set1.values[i] & ~set2.values[i]) != 0) {
+    for (uint32_t i = 0; i < arraySize; i++) {
+        if ((set1.values[i] & ~set2.values[i]) != 0)
             return false;
-        }
     }
+
     return true;
 }
 
@@ -80,10 +78,9 @@ void bitset_deleteElements(bitset *set) {
 bitset bitset_union(bitset set1, bitset set2) {
     bitset result = bitset_create(set1.maxValue > set2.maxValue ? set1.maxValue : set2.maxValue);
 
-    for (uint32_t i = 0; i < result.maxValue; ++i) {
-        if (bitset_in(set1, i) || bitset_in(set2, i)) {
+    for (uint32_t i = 0; i < result.maxValue; i++) {
+        if (bitset_in(set1, i) || bitset_in(set2, i))
             bitset_insert(&result, i);
-        }
     }
 
     return result;
@@ -92,10 +89,9 @@ bitset bitset_union(bitset set1, bitset set2) {
 bitset bitset_intersection(bitset set1, bitset set2) {
     bitset result = bitset_create(set1.maxValue < set2.maxValue ? set1.maxValue : set2.maxValue);
 
-    for (uint32_t i = 0; i < result.maxValue; ++i) {
-        if (bitset_in(set1, i) && bitset_in(set2, i)) {
+    for (uint32_t i = 0; i < result.maxValue; i++) {
+        if (bitset_in(set1, i) && bitset_in(set2, i))
             bitset_insert(&result, i);
-        }
     }
 
     return result;
@@ -104,10 +100,9 @@ bitset bitset_intersection(bitset set1, bitset set2) {
 bitset bitset_difference(bitset set1, bitset set2) {
     bitset result = bitset_create(set1.maxValue);
 
-    for (uint32_t i = 0; i < set1.maxValue; ++i) {
-        if (bitset_in(set1, i) && !bitset_in(set2, i)) {
+    for (uint32_t i = 0; i < set1.maxValue; i++) {
+        if (bitset_in(set1, i) && !bitset_in(set2, i))
             bitset_insert(&result, i);
-        }
     }
 
     return result;
@@ -116,10 +111,9 @@ bitset bitset_difference(bitset set1, bitset set2) {
 bitset bitset_symmetricDifference(bitset set1, bitset set2) {
     bitset result = bitset_create(set1.maxValue > set2.maxValue ? set1.maxValue : set2.maxValue);
 
-    for (uint32_t i = 0; i < result.maxValue; ++i) {
-        if ((bitset_in(set1, i) && !bitset_in(set2, i)) || (!bitset_in(set1, i) && bitset_in(set2, i))) {
+    for (uint32_t i = 0; i < result.maxValue; i++) {
+        if ((bitset_in(set1, i) && !bitset_in(set2, i)) || (!bitset_in(set1, i) && bitset_in(set2, i)))
             bitset_insert(&result, i);
-        }
     }
 
     return result;
@@ -128,10 +122,9 @@ bitset bitset_symmetricDifference(bitset set1, bitset set2) {
 bitset bitset_complement(bitset set) {
     bitset result = bitset_create(set.maxValue);
 
-    for (uint32_t i = 0; i < set.maxValue; ++i) {
-        if (!bitset_in(set, i)) {
+    for (uint32_t i = 0; i < set.maxValue; i++) {
+        if (!bitset_in(set, i))
             bitset_insert(&result, i);
-        }
     }
 
     return result;
@@ -140,11 +133,11 @@ bitset bitset_complement(bitset set) {
 
 void bitset_print(bitset set) {
     printf("{ ");
-    for (uint32_t i = 1; i <= set.maxValue; ++i) {
-        if (bitset_in(set, i)) {
+    for (uint32_t i = 1; i <= set.maxValue; i++) {
+        if (bitset_in(set, i))
             printf("%u ", i);
-        }
     }
+
     printf("}\n");
 }
 

@@ -9,9 +9,9 @@
 #include <malloc.h>
 
 typedef struct vector {
-    int *data; // указатель на элементы вектора
-    size_t size; // размер вектора
-    size_t capacity; // вместимость вектора
+    int *data;
+    size_t size;
+    size_t capacity;
 } vector;
 
 #endif //C_VECTOR_H

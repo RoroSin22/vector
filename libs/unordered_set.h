@@ -19,18 +19,16 @@ unordered_array_set unordered_array_set_create(size_t capacity) {
     set.size = 0;
     set.capacity = capacity;
 
-    for (size_t i = 0; i < set.capacity; i++) {
+    for (size_t i = 0; i < set.capacity; i++)
         set.data[i] = 0;
-    }
 
     return set;
 }
 
 size_t unordered_array_set_in(unordered_array_set set, int value) {
     for (size_t i = 0; i < set.size; i++) {
-        if (set.data[i] == value) {
+        if (set.data[i] == value)
             return i;
-        }
     }
     return set.size;
 }
@@ -80,18 +78,18 @@ void unordered_array_set_insert(unordered_array_set *set, int value) {
 
 unordered_array_set unordered_array_set_create_from_array(const int *a, size_t size) {
     unordered_array_set set = {NULL, 0, 0};
-    for (size_t i = 0; i < size; ++i) {
+    for (size_t i = 0; i < size; i++)
         unordered_array_set_insert(&set, a[i]);
-    }
+
     return set;
 }
 
 void unordered_array_set_deleteElement(unordered_array_set *set, int value) {
-    for (size_t i = 0; i < set->size; ++i) {
+    for (size_t i = 0; i < set->size; i++) {
         if (set->data[i] == value) {
-            for (size_t j = i; j < set->size - 1; ++j) {
+            for (size_t j = i; j < set->size - 1; ++j)
                 set->data[j] = set->data[j + 1];
-            }
+
             set->size--;
             return;
         }
@@ -102,15 +100,13 @@ unordered_array_set unordered_array_set_union(unordered_array_set set1, unordere
     unordered_array_set result = {NULL, 0, 0};
 
     for (size_t i = 0; i < set1.size; i++) {
-        if (unordered_array_set_in(result, set1.data[i]) == result.size) {
+        if (unordered_array_set_in(result, set1.data[i]) == result.size)
             unordered_array_set_insert(&result, set1.data[i]);
-        }
     }
 
     for (size_t i = 0; i < set2.size; i++) {
-        if (unordered_array_set_in(result, set2.data[i]) == result.size) {
+        if (unordered_array_set_in(result, set2.data[i]) == result.size)
             unordered_array_set_insert(&result, set2.data[i]);
-        }
     }
 
     return result;
@@ -119,9 +115,8 @@ unordered_array_set unordered_array_set_union(unordered_array_set set1, unordere
 unordered_array_set unordered_array_set_intersection(unordered_array_set set1, unordered_array_set set2) {
     unordered_array_set intersection = {NULL, 0, 0};
     for (size_t i = 0; i < set1.size; i++) {
-        if (unordered_array_set_in(set2, set1.data[i]) != set2.size) {
+        if (unordered_array_set_in(set2, set1.data[i]) != set2.size)
             unordered_array_set_insert(&intersection, set1.data[i]);
-        }
     }
     return intersection;
 }
@@ -129,9 +124,8 @@ unordered_array_set unordered_array_set_intersection(unordered_array_set set1, u
 unordered_array_set unordered_array_set_difference(unordered_array_set set1, unordered_array_set set2) {
     unordered_array_set difference = {NULL, 0, 0};
     for (size_t i = 0; i < set1.size; i++) {
-        if (unordered_array_set_in(set2, set1.data[i]) == set2.size) {
+        if (unordered_array_set_in(set2, set1.data[i]) == set2.size)
             unordered_array_set_insert(&difference, set1.data[i]);
-        }
     }
     return difference;
 }
@@ -140,9 +134,8 @@ unordered_array_set unordered_array_set_difference(unordered_array_set set1, uno
 unordered_array_set unordered_array_set_complement(unordered_array_set set, unordered_array_set universumSet) {
     unordered_array_set complement = {NULL, 0, 0};
     for (size_t i = 0; i < universumSet.size; i++) {
-        if (unordered_array_set_in(set, universumSet.data[i]) == set.size) {
+        if (unordered_array_set_in(set, universumSet.data[i]) == set.size)
             unordered_array_set_insert(&complement, universumSet.data[i]);
-        }
     }
     return complement;
 }
@@ -166,9 +159,9 @@ bool unordered_array_set_isEqual(unordered_array_set set1, unordered_array_set s
 
 void unordered_array_set_print(unordered_array_set set) {
     printf("{ ");
-    for (size_t i = 0; i < set.size; ++i) {
+    for (size_t i = 0; i < set.size; i++)
         printf("%d ", set.data[i]);
-    }
+
     printf("}\n");
 }
 
