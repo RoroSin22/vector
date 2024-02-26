@@ -140,16 +140,18 @@ unordered_array_set unordered_array_set_complement(unordered_array_set set, unor
     return complement;
 }
 
-void unordered_array_set_delete(unordered_array_set set) {
-    free(set.data);
+void unordered_array_set_delete(unordered_array_set *set) {
+    free(set -> data);
+    set -> size = 0;
+    set -> capacity = 0;
 }
 
 unordered_array_set unordered_array_set_symmetricDifference(unordered_array_set set1, unordered_array_set set2) {
     unordered_array_set diff1 = unordered_array_set_difference(set1, set2);
     unordered_array_set diff2 = unordered_array_set_difference(set2, set1);
     unordered_array_set symmetric_difference = unordered_array_set_union(diff1, diff2);
-    unordered_array_set_delete(diff1);
-    unordered_array_set_delete(diff2);
+    unordered_array_set_delete(&diff1);
+    unordered_array_set_delete(&diff2);
     return symmetric_difference;
 }
 

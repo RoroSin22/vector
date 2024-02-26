@@ -166,7 +166,10 @@ void ordered_array_set_print(ordered_array_set set) {
     printf("}\n");
 }
 
-void ordered_array_set_delete(ordered_array_set set) {
-    free(set.data);
+void ordered_array_set_delete(ordered_array_set *set) {
+    free(set -> data);
+    set -> size = 0;
+    set -> capacity = 0;
 }
+
 #endif //LIBRARIES_ORDERED_SET_H
