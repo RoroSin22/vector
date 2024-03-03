@@ -13,6 +13,28 @@ typedef struct vector {
     size_t capacity;
 } vector;
 
+bool isEmpty(vector *v){
+    return v -> size != 0;
+}
+
+bool isFull(vector *v){
+    return v -> size == v -> capacity;
+}
+
+void isEmptyExit(vector *v){
+    if(isEmpty(v)){
+        fprintf(stderr, "vector is empty");
+        exit(1);
+    }
+}
+
+void isOutOFRangeExit(vector *v, size_t index){
+    if(v -> size <= index){
+        fprintf(stderr, "IndexError: a[%lld] is not exists", index);
+        exit(1);
+    }
+}
+
 void canFit(void* x){
     if(x == NULL){
         fprintf(stderr, "bad alloc");
@@ -59,20 +81,12 @@ void deleteVector(vector *v){
     v -> capacity = 0;
 }
 
-bool isEmpty(vector *v){
-    return v -> size != 0;
-}
-
-bool isFull(vector *v){
-    return v -> size == v -> capacity;
-}
-
 int getVectorValue(vector *v, size_t i){
     return v -> data[i];
 }
 
 void pushBack(vector *v, int x){
-    if(v -> size == v -> capacity) {
+    if(isFull(v)) {
         if (v->capacity == 0)
             reserve(v, 1);
         else
@@ -83,25 +97,12 @@ void pushBack(vector *v, int x){
     v -> size += 1;
 }
 
-void isEmptyExit(vector *v){
-    if(isEmpty(v)){
-        fprintf(stderr, "vector is empty");
-        exit(1);
-    }
-}
-
 void popBack(vector *v){
     isEmptyExit(v);
 
     v -> size -= 1;
 }
 
-void isOutOFRangeExit(vector *v, size_t index){
-    if(v -> size <= index){
-        fprintf(stderr, "IndexError: a[%lld] is not exists", index);
-        exit(1);
-    }
-}
 
 int* atVector(vector *v, size_t index){
     isOutOFRangeExit(v, index);
