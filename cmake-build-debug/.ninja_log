@@ -1,21 +1,3 @@
 # ninja log v5
-2	72	7305685350289658	CMakeFiles/main.c.dir/main.c.obj	1bd5f46f81cc2314
-73	148	7305685350986600	main.c.exe	3afd99acdc7ec625
-1	115	7305883364375185	CMakeFiles/main.c.dir/main.c.obj	1bd5f46f81cc2314
-115	190	7305883365089593	main.c.exe	3afd99acdc7ec625
-2	91	7305938485725060	CMakeFiles/main.c.dir/main.c.obj	1bd5f46f81cc2314
-91	164	7305938486430214	main.c.exe	3afd99acdc7ec625
-2	84	7305938711182720	CMakeFiles/main.c.dir/main.c.obj	1bd5f46f81cc2314
-84	152	7305938711823267	main.c.exe	3afd99acdc7ec625
-2	87	7305939295915776	CMakeFiles/main.c.dir/main.c.obj	1bd5f46f81cc2314
-87	155	7305939296553919	main.c.exe	3afd99acdc7ec625
-2	82	7305940464293937	CMakeFiles/main.c.dir/main.c.obj	1bd5f46f81cc2314
-82	153	7305940464980743	main.c.exe	3afd99acdc7ec625
-2	88	7305940970062292	CMakeFiles/main.c.dir/main.c.obj	1bd5f46f81cc2314
-88	156	7305940970713878	main.c.exe	3afd99acdc7ec625
-2	81	7305941104299131	CMakeFiles/main.c.dir/main.c.obj	1bd5f46f81cc2314
-81	162	7305941105067503	main.c.exe	3afd99acdc7ec625
-2	78	7305941196375817	CMakeFiles/main.c.dir/main.c.obj	1bd5f46f81cc2314
-78	142	7305941196994828	main.c.exe	3afd99acdc7ec625
 2	85	7305941309684041	CMakeFiles/main.c.dir/main.c.obj	1bd5f46f81cc2314
 86	155	7305941310353559	main.c.exe	3afd99acdc7ec625
