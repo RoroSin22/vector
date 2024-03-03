@@ -46,7 +46,7 @@ vector createVector(size_t n) {
     vector v;
     v.size = 0;
     v.capacity = n;
-    v.data = realloc(v.data, n * sizeof(int));
+    v.data = realloc(NULL, n * sizeof(int));
 
     canFit(v.data);
 
@@ -102,7 +102,6 @@ void popBack(vector *v){
 
     v -> size -= 1;
 }
-
 
 int* atVector(vector *v, size_t index){
     isOutOFRangeExit(v, index);
