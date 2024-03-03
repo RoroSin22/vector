@@ -96,4 +96,29 @@ void popBack(vector *v){
     v -> size -= 1;
 }
 
+void isOutOFRangeExit(vector *v, size_t index){
+    if(v -> size <= index){
+        fprintf(stderr, "IndexError: a[%lld] is not exists", index);
+        exit(1);
+    }
+}
+
+int* atVector(vector *v, size_t index){
+    isOutOFRangeExit(v, index);
+
+    return &(v -> data[index]);
+}
+
+int* back(vector *v){
+    isOutOFRangeExit(v, 0);
+
+    return &(v -> data[v -> size - 1]);
+}
+
+int* front(vector *v){
+    isOutOFRangeExit(v, 0);
+
+    return &(v -> data[0]);
+}
+
 #endif //C_VECTOR_H
