@@ -11,4 +11,5 @@ add_executable(main.c
         libs/unordered_set.h
         libs/vector.h
         libs/vectorVoid.h
+        libs/matrix.h
 )
