@@ -70,11 +70,9 @@ void outputMatrices(matrix *ms, int nMatrices){
 }
 
 void swapRows(matrix m, int i1, int i2){
-    int *temp = (int *) malloc(sizeof(int) * m.nCols);
-    memcpy(temp, m.values[i1], sizeof(int) * m.nCols);
-    memcpy(m.values[i1], m.values[i2], sizeof(int) * m.nCols);
-    memcpy(m.values[i2], temp, sizeof(int) * m.nCols);
-    free(temp);
+    int *temp = m.values[i1];
+    m.values[i1] = m.values[i2];
+    m.values[i2] = temp;
 }
 
 
