@@ -50,12 +50,22 @@ void inputMatrix(matrix *m){
     }
 }
 
+void inputMatrices(matrix *ms, int nMatrices){
+    for (int i = 0; i < nMatrices; i++)
+        inputMatrix(&ms[i]);
+}
+
 void outputMatrix(matrix m){
     for (int i = 0; i < m.nCols; i++){
         for (int j = 0; j < m.nRows; j++)
             printf("%d ", m.values[i][j]);
         printf("\n");
     }
+}
+
+void outputMatrices(matrix *ms, int nMatrices){
+    for (int i = 0; i < nMatrices; i++)
+        outputMatrix(ms[i]);
 }
 
 #endif //C_MATRIX_H
