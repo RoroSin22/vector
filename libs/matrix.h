@@ -2,6 +2,7 @@
 #define C_MATRIX_H
 
 #include <malloc.h>
+#include <stdio.h>
 
 typedef struct matrix {
     int **values; // элементы матрицы
@@ -33,6 +34,8 @@ void freeMemMatrix(matrix *m){
         free(m->values[i]);
 
     m->values = NULL;
+    m->nRows = 0;
+    m->nCols = 0;
 }
 
 void freeMemMatrices(matrix *ms, int nMatrices){
@@ -40,8 +43,19 @@ void freeMemMatrices(matrix *ms, int nMatrices){
         freeMemMatrix(ms);
 }
 
+void inputMatrix(matrix *m){
+    for (int i = 0; i < m->nRows; i++){
+        for (int j = 0; j < m->nCols; j++)
+            scanf("%d", &m->values[i] [j]);
+    }
+}
 
-
-
+void outputMatrix(matrix m){
+    for (int i = 0; i < m.nCols; i++){
+        for (int j = 0; j < m.nRows; j++)
+            printf("%d ", m.values[i][j]);
+        printf("\n");
+    }
+}
 
 #endif //C_MATRIX_H
