@@ -5,7 +5,7 @@
 int main() {
     matrix a = getMemMatrix(3, 3);
     inputMatrix(&a);
-    swapRows(a, 0, 2);
+    swapColumns(a, 0, 2);
     outputMatrix(a);
 
     return 0;

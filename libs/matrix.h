@@ -75,5 +75,13 @@ void swapRows(matrix m, int i1, int i2){
     m.values[i2] = temp;
 }
 
+void swapColumns(matrix m, int j1, int j2){
+    for (int i = 0; i < m.nRows; i++){
+        int temp = m.values[i] [j1];
+        m.values[i] [j1] = m.values[i] [j2];
+        m.values[i] [j2] = temp;
+    }
+}
+
 
 #endif //C_MATRIX_H
