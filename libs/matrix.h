@@ -3,6 +3,7 @@
 
 #include <malloc.h>
 #include <stdio.h>
+#include <string.h>
 
 typedef struct matrix {
     int **values; // элементы матрицы
@@ -67,5 +68,14 @@ void outputMatrices(matrix *ms, int nMatrices){
     for (int i = 0; i < nMatrices; i++)
         outputMatrix(ms[i]);
 }
+
+void swapRows(matrix m, int i1, int i2){
+    int *temp = (int *) malloc(sizeof(int) * m.nCols);
+    memcpy(temp, m.values[i1], sizeof(int) * m.nCols);
+    memcpy(m.values[i1], m.values[i2], sizeof(int) * m.nCols);
+    memcpy(m.values[i2], temp, sizeof(int) * m.nCols);
+    free(temp);
+}
+
 
 #endif //C_MATRIX_H
