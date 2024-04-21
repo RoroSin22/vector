@@ -104,30 +104,34 @@ void insertionSortRowsMatrixByRowCriteria(matrix m, int (*criteria)(int*, int)){
     }
 }
 
-/*int getTempCols(matrix m, int cols){
-    int *temp = (int *) malloc(sizeof(int) * m.nCols);
-    for (int i = 0; i < m.nCols; i++)
-        temp[i] = m.values[cols] [i];
+void selectionSortColsMatrixByColCriteria(matrix *m, int (*criteria)(int *,int)) {
+    int temp[m->nCols];
 
-    return *temp;
-}
+    for (int i = 0; i < m->nCols; i++) {
+        int temp_column[m->nRows];
 
-void switchCols(matrix *m, int col_number, int *second_col){
-    for (int i = 0; i < m->nRows; i++)
-        m->values[i] [col_number] = second_col[i];
-}
+        for (int j = 0; j < m->nRows; j++)
+            temp_column[j] = m->values[j][i];
 
-void selectionSortColsMatrixByColCriteria(matrix m, int (*criteria)(int*, int)){
-    for (int i = 0; i < m.nCols; i++){
-        int temp = getTempCols(m, i);
-        int j = i;
-
-        while (j > 0 && criteria(m.values[j - 1], m.nCols) > criteria(&temp, m.nCols)) {
-            switchCols(m, j, m.values[])
-            j--;
-        }
+        int result = criteria(temp_column, m->nCols);
+        temp[i] = result;
     }
-} */
+
+    int min_position;
+    int temp_position;
+
+    for (int i = 0; i < m->nCols; i++) {
+        min_position = i;
+        for (int j = i + 1; j < m->nCols; j++)
+            if (temp[min_position] > temp[j])
+                min_position = j;
+        temp_position = temp[min_position];
+        temp[min_position] = temp[i];
+        temp[i] = temp_position;
+        swapColumns(*m, min_position, i);
+    }
+}
+
 
 bool isSquareMatrix(matrix *m){
     return m->nCols == m->nRows;
