@@ -19,10 +19,10 @@ int getDifference(int *a, int n){
 }
 
 int main() {
-    matrix a = getMemMatrix(3, 3);
+    matrix a = getMemMatrix(3, 2);
     inputMatrix(&a);
-
-    printf("%d", isSymmetricMatrix(&a));
+    transposeMatrix(&a);
+    outputMatrix(a);
 
     return 0;
 }

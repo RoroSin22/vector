@@ -4,6 +4,7 @@
 #include <malloc.h>
 #include <stdio.h>
 #include <string.h>
+#include "array.h"
 
 typedef struct matrix {
     int **values; // элементы матрицы
@@ -67,6 +68,12 @@ void outputMatrix(matrix m){
 void outputMatrices(matrix *ms, int nMatrices){
     for (int i = 0; i < nMatrices; i++)
         outputMatrix(ms[i]);
+}
+
+void swapElements(matrix m, int i1, int j1, int i2, int j2){
+    int temp = m.values[i1][j1];
+    m.values[i1][j1] = m.values[i2][j2];
+    m.values[i2][j2] = temp;
 }
 
 void swapRows(matrix m, int i1, int i2){
@@ -165,8 +172,8 @@ bool isSymmetricMatrix(matrix *m){
     if (m->nRows == 1)
         return true;
 
-    for (int i = 0; i < m->nRows / 2 + m->nRows % 2; i++){
-        for (int j = 0; j < m->nCols / 2 + m->nCols % 2; j++) {
+    for (int i = 0; i < m->nRows; i++){
+        for (int j = 0; j < i; j++) {
             if (i == j)
                 continue;
 
@@ -176,6 +183,37 @@ bool isSymmetricMatrix(matrix *m){
     }
 
     return true;
+}
+
+void transposeSquareMatrix(matrix *m) {
+    if (isSymmetricMatrix(m))
+        return;
+
+    for (int i = 0; i < m->nRows; i++) {
+        for (int j = i + 1; j < m->nCols; j++) {
+            swapElements(*m, i, j, j, i);
+        }
+    }
+}
+
+void transposeMatrix(matrix *m){
+    matrix transposed = getMemMatrix(m->nCols, m->nRows);
+    for (int i = 0; i < m->nRows; i++){
+        for (int j = 0; j < m->nCols; j++)
+            transposed.values[j][i] = m->values[i][j];
+    }
+
+    freeMemMatrix(m);
+    *m = getMemMatrix(transposed.nRows,transposed.nCols);
+    m->nRows = transposed.nRows;
+    m->nCols = transposed.nCols;
+
+    for(int i = 0; i < m->nRows; i++) {
+        for (int j = 0; j < m->nCols; j++)
+            m->values[i][j] = transposed.values[i][j];
+    }
+
+    freeMemMatrix(&transposed);
 }
 
 #endif //C_MATRIX_H

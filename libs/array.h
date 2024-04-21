@@ -5,6 +5,13 @@
 #include <math.h>
 #include <stdbool.h>
 
+
+void swap(void* a, void* b) {
+    void *tmp = a;
+    a = b;
+    b = tmp;
+}
+
 void inputArray(int *a, const int n) {
     for (size_t i = 0; i < n; i++)
         scanf("%d", &a[i]);
