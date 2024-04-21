@@ -214,7 +214,7 @@ void test_getMinValuePos() {
                                              18, 7, 0,},
                                      2, 3);
     position p = getMinValuePos(m);
-    assert(p.rowIndex == 1 && p.colIndex == 1);
+    assert(p.rowIndex == 0 && p.colIndex == 0);
     freeMemMatrix(&m);
 }
 void test_getMaxValuePos() {
@@ -224,7 +224,7 @@ void test_getMaxValuePos() {
                                              4, 15, 12,},
                                      2, 3);
     position p1 = getMaxValuePos(m);
-    assert(p1.rowIndex == 2 && p1.colIndex == 2);
+    assert(p1.rowIndex == 1 && p1.colIndex == 1);
     freeMemMatrix(&m);
 }
 void test() {
