@@ -4,6 +4,7 @@
 #include <malloc.h>
 #include <stdio.h>
 #include <string.h>
+#include <assert.h>
 #include "array.h"
 
 typedef struct matrix {
@@ -318,6 +319,27 @@ void sortColsByMinElement(matrix *m) {
 }
 
 //4
+matrix mulMatrices(matrix m1, matrix m2){
+    assert(m1.nRows == m2.nCols);
+    matrix m3 = getMemMatrix(m1.nRows, m2.nCols);
 
+    for (int i = 0; i < m3.nRows; i++){
+        for (int j = 0; j < m3.nCols; j++){
+            m3.values[i][j] = 0;
+            for (int k = 0; k < m3.nCols; k++)
+                m3.values[i][j] += m1.values[i][k] * m2.values[k][j];
+        }
+    }
+
+    return m3;
+}
+
+void getSquareOfMatrixIfSymmetric(matrix *m){
+    if(isSymmetricMatrix(m)){
+        matrix m1 = mulMatrices(*m, *m);
+        freeMemMatrix(m);
+        *m = m1;
+    }
+}
 
 #endif //C_MATRIX_H
