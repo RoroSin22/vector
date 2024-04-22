@@ -52,9 +52,63 @@ void test_swapMinMaxRowsMatrix() {
     freeMemMatrix(&exp_res3);
 }
 
+void test_sortRowsByMinElement() {
+    //стандартный (простой) запуск функци
+    matrix m1 = createMatrixFromArray((int[]) {
+                                              7, 1, 2,
+                                              1, 8, 1,
+                                              3, 2,  3,},
+                                      3, 3);
+
+    sortRowsByMinElement(&m1);
+
+    matrix exp_res1 = createMatrixFromArray((int[]) {
+                                                    3, 2, 3,
+                                                    7, 1, 2,
+                                                    1, 8,  1,},
+                                            3, 3);
+    assert(areTwoMatricesEqual(&m1, &exp_res1));
+    freeMemMatrix(&m1);
+    freeMemMatrix(&exp_res1);
+
+    //Матрица отсортирована в обратном порядке
+    matrix m2 = createMatrixFromArray((int[]) {
+                                              0, 2, 19,
+                                              4, 15, 6,
+                                              1, 8,  7,},
+                                      3, 3);
+    sortRowsByMinElement(&m2);
+
+    matrix exp_res2 = createMatrixFromArray((int[]) {
+                                                    1, 8, 7,
+                                                    4, 15, 6,
+                                                    0, 2,  19,},
+                                            3, 3);
+    assert(areTwoMatricesEqual(&m2, &exp_res2));
+    freeMemMatrix(&m2);
+    freeMemMatrix(&exp_res2);
+
+    //все элементы матрицы равны 0
+    matrix m3 = createMatrixFromArray((int[]) {
+                                              0, 0, 0,
+                                              0, 0, 0,
+                                              0, 0,  0,},
+                                      3, 3);
+    sortRowsByMinElement(&m3);
+
+    matrix exp_res3 = createMatrixFromArray((int[]) {
+                                                    0, 0, 0,
+                                                    0, 0, 0,
+                                                    0, 0,  0,},
+                                            3, 3);
+    assert(areTwoMatricesEqual(&m3, &exp_res3));
+    freeMemMatrix(&m3);
+    freeMemMatrix(&exp_res3);
+}
+
 void test() {
     test_swapMinMaxRowsMatrix();
-
+    test_sortRowsByMinElement();
 }
 
 int main() {

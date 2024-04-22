@@ -279,12 +279,29 @@ matrix *createArrayOfMatrixFromArray(const int *values, size_t nMatrices, size_t
 }
 
 //Lab work 17
-
+//1
 void swapMinMaxRowsMatrix(matrix *m){
     position min_element = getMinValuePos(*m);
     position max_element = getMaxValuePos(*m);
     if(min_element.rowIndex != max_element.rowIndex)
         swapRows(*m, min_element.rowIndex, max_element.rowIndex);
 }
+
+//2
+int getMax(int *a, int n){
+    int max = a[0];
+    for (int i = 1; i < n; i++){
+        if (max < a[i])
+            max = a[i];
+    }
+
+    return max;
+}
+
+void sortRowsByMinElement(matrix *m){
+    insertionSortRowsMatrixByRowCriteria(*m, getMax);
+}
+
+//3
 
 #endif //C_MATRIX_H
