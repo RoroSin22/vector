@@ -303,5 +303,21 @@ void sortRowsByMinElement(matrix *m){
 }
 
 //3
+int getMin(int *a, int n){
+    int min = a[0];
+    for (int i = 1; i < n; i++){
+        if (min > a[i])
+            min = a[i];
+    }
+
+    return min;
+}
+
+void sortColsByMinElement(matrix *m) {
+    selectionSortColsMatrixByColCriteria(m, getMin);
+}
+
+//4
+
 
 #endif //C_MATRIX_H
