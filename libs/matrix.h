@@ -342,4 +342,37 @@ void getSquareOfMatrixIfSymmetric(matrix *m){
     }
 }
 
+//5
+bool isUnique(long long *a, int n){
+    for(int i = 0; i < n; i++){
+        for(int j = i + 1; j < n; j++){
+            if (a[i] == a[j])
+                return false;
+        }
+    }
+
+    return true;
+}
+
+long long getSum(int *a, int n){
+    long long sum = a[0];
+    for (int i = 1; i < n; i++)
+        sum += a[i];
+
+    return sum;
+}
+
+long long* getArrayOfSum(matrix m){
+    long long *a = (long long*) malloc(sizeof(long long) * m.nRows);
+    for ( int i = 0; i < m.nRows; i++)
+        a[i] = getSum(m.values[i], m.nCols);
+
+    return a;
+}
+
+void transposeIfMatrixHasNotEqualSumOfRows(matrix m){
+    if (isUnique(getArrayOfSum(m), m.nRows))
+        transposeSquareMatrix(&m);
+}
+
 #endif //C_MATRIX_H

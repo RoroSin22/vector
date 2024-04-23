@@ -253,12 +253,49 @@ void test_getSquareOfMatrixIfSymmetric(){
     freeMemMatrix(&exp_res3);
 }
 
+void test_transposeIfMatrixHasNotEqualSumOfRows(){
+    //суммы строк элементов не равны между собой
+    matrix m1 = createMatrixFromArray((int[]) {
+                                              15,  1, 2,
+                                              0, 15, 0,
+                                              3, 2, 3},
+                                      3, 3);
+
+    transposeIfMatrixHasNotEqualSumOfRows(m1);
+    matrix exp_res1 = createMatrixFromArray((int[]) {
+                                                   15,  0, 3,
+                                                   1, 15, 2,
+                                                   2, 0, 3},
+                                           3, 3);
+    assert(areTwoMatricesEqual(&m1, &exp_res1));
+    freeMemMatrix(&m1);
+    freeMemMatrix(&exp_res1);
+
+    //среди сумм элементов строк есть равные
+    matrix m2 = createMatrixFromArray((int[]) {
+                                              15,  1, 2,
+                                              3, 15, 0,
+                                              3, 2, 3},
+                                      3, 3);
+
+    transposeIfMatrixHasNotEqualSumOfRows(m2);
+    matrix exp_res2 = createMatrixFromArray((int[]) {
+                                                    15,  1, 2,
+                                                    3, 15, 0,
+                                                    3, 2, 3},
+                                            3, 3);
+    assert(areTwoMatricesEqual(&m2, &exp_res2));
+    freeMemMatrix(&m2);
+    freeMemMatrix(&exp_res2);
+}
+
 void test() {
     test_swapMinMaxRowsMatrix();
     test_sortRowsByMinElement();
     //test_sortColsByMinElement();
     test_mulMatrices();
     test_getSquareOfMatrixIfSymmetric();
+    test_transposeIfMatrixHasNotEqualSumOfRows();
 }
 int main() {
     test();
