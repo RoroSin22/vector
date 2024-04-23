@@ -375,4 +375,24 @@ void transposeIfMatrixHasNotEqualSumOfRows(matrix m){
         transposeSquareMatrix(&m);
 }
 
+//6
+bool isMutuallyInverseMatrices(matrix m1, matrix m2){
+    if (m1.nRows != m2.nRows)
+        return false;
+
+    matrix one_m = getMemMatrix(m1.nRows, m1.nRows);
+    for (int i = 0; i < one_m.nRows; i++) {
+        for (int j = 0; j < one_m.nRows; j++)
+            one_m.values[i][j] = i == j;
+    }
+
+    matrix mul_m = mulMatrices(m1, m2);
+    bool res = areTwoMatricesEqual(&one_m, &mul_m);
+
+    freeMemMatrix(&one_m);
+    freeMemMatrix(&mul_m);
+
+    return res;
+}
+
 #endif //C_MATRIX_H

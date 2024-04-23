@@ -289,6 +289,44 @@ void test_transposeIfMatrixHasNotEqualSumOfRows(){
     freeMemMatrix(&exp_res2);
 }
 
+void test_isMutuallyInverseMatrices(){
+    //матрицы взаимно обратны
+    matrix m1 = createMatrixFromArray((int[]) {
+                                              1,  -2, 1,
+                                              2, 1, -1,
+                                              3, 2, -2},
+                                      3, 3);
+
+    matrix m2 = createMatrixFromArray((int[]) {
+                                              0,  2, -1,
+                                              -1, 5, -3,
+                                              -1, 8, -5},
+                                      3, 3);
+    bool exp_res = true;
+    assert(exp_res == isMutuallyInverseMatrices(m1, m2));
+
+    freeMemMatrix(&m1);
+    freeMemMatrix(&m2);
+
+    //матрицы взаимно обратны
+    matrix m1_1 = createMatrixFromArray((int[]) {
+                                              1,  -2, 1,
+                                              5, 1, -1,
+                                              3, 2, -2},
+                                      3, 3);
+
+    matrix m2_1 = createMatrixFromArray((int[]) {
+                                              0,  2, -1,
+                                              -1, 5, -3,
+                                              -1, 8, -5},
+                                      3, 3);
+    bool exp_res_1 = false;
+    assert(exp_res_1 == isMutuallyInverseMatrices(m1_1, m2_1));
+
+    freeMemMatrix(&m1_1);
+    freeMemMatrix(&m2_1);
+}
+
 void test() {
     test_swapMinMaxRowsMatrix();
     test_sortRowsByMinElement();
@@ -296,6 +334,7 @@ void test() {
     test_mulMatrices();
     test_getSquareOfMatrixIfSymmetric();
     test_transposeIfMatrixHasNotEqualSumOfRows();
+    test_isMutuallyInverseMatrices();
 }
 int main() {
     test();
