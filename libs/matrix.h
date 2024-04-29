@@ -401,6 +401,10 @@ int max(int a, int b){
     return a > b ? a : b;
 }
 
+int min(int a, int b){
+    return a < b ? a : b;
+}
+
 long long findSumOfMaxesOfPseudoDiagonal(matrix m){
     long diagonal_amount = m.nRows + m.nCols - 2;
     int* max_diagonal_array = (int*) malloc(sizeof(int) * diagonal_amount);
@@ -427,4 +431,25 @@ long long findSumOfMaxesOfPseudoDiagonal(matrix m){
     return sum;
 }
 
+//8
+int getMinInArea(matrix m){
+    position max_position = getMaxValuePos(m);
+    int min_value = m.values[max_position.rowIndex][max_position.colIndex];
+
+    for (int i = max_position.rowIndex - 1; i >= 0; i--){
+        int left_wall = max_position.colIndex - max_position.rowIndex + i;
+        int right_wall = max_position.colIndex + max_position.rowIndex - i;
+        if (left_wall < 0)
+            left_wall = 0;
+        if (right_wall > m.nCols - 1)
+            right_wall = m.nCols - 1;
+
+        for (int j = left_wall; j <= right_wall; j++) {
+            min_value = min(min_value, m.values[i][j]);
+        }
+
+    }
+
+    return min_value;
+}
 #endif //C_MATRIX_H
