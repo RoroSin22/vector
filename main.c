@@ -358,6 +358,25 @@ void test_getMinInAreal(){
     freeMemMatrix(&m2);
 }
 
+void test_sortByDistances(){
+    matrix m = createMatrixFromArray((int[]) {
+                                             10, 11, 5, 1,
+                                             7, 12, 3, 4,
+                                             6,  8, 9, 2},
+                                     3, 4);
+    sortByDistances(m);
+
+    matrix exp_res = createMatrixFromArray((int[]) {
+                                                   6,  8, 9, 2, //36 64 81 4 = 184
+                                                   7, 12, 3, 4, // 49 144 9 16 = 218
+                                                   10, 11, 5, 1}, // 100 121 25 1 =
+                                           3, 4);
+
+    assert(areTwoMatricesEqual(&m, &exp_res));
+    freeMemMatrix(&m);
+    freeMemMatrix(&exp_res);
+}
+
 void test() {
     test_swapMinMaxRowsMatrix();
     test_sortRowsByMinElement();
@@ -368,9 +387,9 @@ void test() {
     test_isMutuallyInverseMatrices();
     test_findSumOfMaxesOfPseudoDiagonal();
     test_getMinInAreal();
+    test_sortByDistances();
 }
 int main() {
     test();
-
     return 0;
 }

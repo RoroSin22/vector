@@ -6,6 +6,8 @@
 #include <string.h>
 #include <assert.h>
 #include <limits.h>
+#include <math.h>
+#include <float.h>
 #include "array.h"
 
 typedef struct matrix {
@@ -452,4 +454,36 @@ int getMinInArea(matrix m){
 
     return min_value;
 }
+
+//9
+bool areSame(double a, double b){
+    return fabs(a - b) < DBL_EPSILON;
+}
+
+double getDistance(int *a, int n){
+    double pre_sqrt = a[0] * a[0];
+    for (int i = 1; i < n; i++)
+        pre_sqrt += a[i] * a[i];
+
+    return sqrt(pre_sqrt);
+}
+
+void insertionSortRowsMatrixByRowCriteriaF(matrix m, double (*criteria)(int *, int)){
+    for (int i = 1; i < m.nRows ; i++){
+        int *temp = m.values[i];
+        int j = i;
+
+        while (j > 0 && !areSame(criteria(m.values[j - 1], m.nCols), criteria(temp, m.nCols))) {
+            m.values[j] = m.values[j - 1];
+            j--;
+        }
+
+        m.values[j] = temp;
+    }
+}
+
+void sortByDistances(matrix m){
+    insertionSortRowsMatrixByRowCriteriaF(m, getDistance);
+}
+
 #endif //C_MATRIX_H
