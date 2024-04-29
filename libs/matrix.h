@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
+#include <limits.h>
 #include "array.h"
 
 typedef struct matrix {
@@ -393,6 +394,37 @@ bool isMutuallyInverseMatrices(matrix m1, matrix m2){
     freeMemMatrix(&mul_m);
 
     return res;
+}
+
+//7
+int max(int a, int b){
+    return a > b ? a : b;
+}
+
+long long findSumOfMaxesOfPseudoDiagonal(matrix m){
+    long diagonal_amount = m.nRows + m.nCols - 2;
+    int* max_diagonal_array = (int*) malloc(sizeof(int) * diagonal_amount);
+    for (int i = 0; i < diagonal_amount; i++)
+        max_diagonal_array[i] = INT_MIN;
+
+    for (int i = 0; i < m.nRows; i++){
+        for (int j = 0; j < m.nCols; j++){
+            if (i == j)
+                continue;
+
+            int position = m.nRows - i + j - 1;
+            if (position > 2)
+                position -= 1;
+
+            max_diagonal_array[position] = max(m.values[i][j], max_diagonal_array[position]);
+        }
+    }
+    long long sum = max_diagonal_array[0];
+    for (int i = 1; i < diagonal_amount; i++)
+        sum += max_diagonal_array[i];
+    free(max_diagonal_array);
+
+    return sum;
 }
 
 #endif //C_MATRIX_H
