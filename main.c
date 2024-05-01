@@ -105,7 +105,7 @@ void test_sortRowsByMinElement() {
     freeMemMatrix(&m3);
     freeMemMatrix(&exp_res3);
 }
-/*
+
 void test_sortColsByMinElement() {
     //стандартный (простой) запуск функци
     matrix m1 = createMatrixFromArray((int[]) {
@@ -159,7 +159,7 @@ void test_sortColsByMinElement() {
     freeMemMatrix(&m3);
     freeMemMatrix(&exp_res3);
 }
-*/
+
 
 void test_mulMatrices(){
     //стандартный (простой) запуск функци
@@ -367,14 +367,37 @@ void test_sortByDistances(){
     sortByDistances(m);
 
     matrix exp_res = createMatrixFromArray((int[]) {
-                                                   6,  8, 9, 2, //36 64 81 4 = 184
-                                                   7, 12, 3, 4, // 49 144 9 16 = 218
-                                                   10, 11, 5, 1}, // 100 121 25 1 =
+                                                   6,  8, 9, 2,
+                                                   7, 12, 3, 4,
+                                                   10, 11, 5, 1},
                                            3, 4);
 
     assert(areTwoMatricesEqual(&m, &exp_res));
     freeMemMatrix(&m);
     freeMemMatrix(&exp_res);
+}
+
+void test_countEqClassesByRowsSum(){
+    matrix m = createMatrixFromArray((int[]) {
+                                             7,1,
+                                             2,7,
+                                             5,4,
+                                             4,3,
+                                             1, 6,
+                                             8, 0},
+                                     6, 2);
+    assert(countEqClassesByRowsSum(m) == 3);
+    freeMemMatrix(&m);
+}
+
+void test_getNSpecialElement(){
+    matrix m = createMatrixFromArray((int[]) {
+                                             3,  5, 5, 4,
+                                             2, 3, 6, 7,
+                                             12, 2, 1, 2},
+                                     3, 4);
+    assert(getNSpecialElement(m) == 2);
+    freeMemMatrix(&m);
 }
 
 void test() {
@@ -388,6 +411,8 @@ void test() {
     test_findSumOfMaxesOfPseudoDiagonal();
     test_getMinInAreal();
     test_sortByDistances();
+    test_countEqClassesByRowsSum();
+    test_getNSpecialElement();
 }
 int main() {
     test();

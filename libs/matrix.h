@@ -486,4 +486,64 @@ void sortByDistances(matrix m){
     insertionSortRowsMatrixByRowCriteriaF(m, getDistance);
 }
 
+//10
+int cmp_long_long(const void *pa, const void *pb){
+    if (pa > pb)
+        return 1;
+    if (pa < pb)
+        return -1;
+
+    return 0;
+}
+
+int countNUniqueSorted(long long *a, int n){
+    int unique = 0;
+
+    for (int i = 1; i < n; i++){
+        if (a[i - 1] == a[i])
+            continue;
+        unique++;
+    }
+
+    return unique;
+}
+
+int countEqClassesByRowsSum(matrix m){
+    long long *a = getArrayOfSum(m);
+    qsort(a, m.nRows, sizeof(long long), cmp_long_long);
+    int unique = countNUniqueSorted(a, m.nRows);
+
+    free(a);
+    return unique;
+}
+
+//11
+long long* getArrayOfSumCols(matrix m){
+    long long *a = (long long*) malloc(sizeof(long long) * m.nCols);
+    for (int i = 0; i < m.nCols; i++)
+        a[i] = 0;
+
+    for (int i = 0; i < m.nCols; i++)
+        for (int j = 0; j < m.nRows; j++)
+            a[i] += (long long) m.values[j][i];
+
+    return a;
+}
+
+int getNSpecialElement(matrix m){
+    long long *a = getArrayOfSumCols(m);
+    int special_number = 0;
+
+    for (int i = 0; i < m.nCols; i++){
+        for (int j = 0; j < m.nRows; j++){
+            if (m.values[j][i] > a[i] - m.values[j][i]){
+                special_number++;
+                break;
+            }
+        }
+    }
+
+    free(a);
+    return special_number;
+}
 #endif //C_MATRIX_H
