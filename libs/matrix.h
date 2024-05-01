@@ -228,12 +228,12 @@ position getMinValuePos(matrix m){
     int min = m.values[0][0];
     position min_position = {0, 0};
 
-    for (int i = 0; i < m.nRows; i++) {
-        for (int j = 0; j < m.nCols; j++) {
-            if (m.values[i][j] < min) {
-                min = m.values[i][j];
-                min_position.rowIndex = i;
-                min_position.colIndex = j;
+    for (int i = 0; i < m.nCols; i++) {
+        for (int j = 0; j < m.nRows; j++) {
+            if (m.values[j][i] < min) {
+                min = m.values[j][i];
+                min_position.rowIndex = j;
+                min_position.colIndex = i;
             }
         }
     }
@@ -545,5 +545,19 @@ int getNSpecialElement(matrix m){
 
     free(a);
     return special_number;
+}
+
+//12
+void swapPenultimateRowWithMinimum(matrix m){
+    position min_position = getMinValuePos(m);
+
+    int *min_col_array = (int *) malloc(sizeof(int) * m.nRows);
+    for (int i = 0; i < m.nRows; i++)
+        min_col_array[i] = m.values[i][min_position.colIndex];
+
+    for (int i = 0; i < m.nCols; i++)
+        m.values[m.nRows - 2][i] = min_col_array[i];
+
+    free(min_col_array);
 }
 #endif //C_MATRIX_H
