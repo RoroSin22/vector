@@ -448,6 +448,25 @@ void test_countValues(){
     assert(countValues(a3, 5, 7) == 0);
 }
 
+void test_countZeroRows(){
+    matrix m1 = createMatrixFromArray((int[]) {
+                                              1,  1,
+                                              1, 0,
+                                              0, 0},
+                                      3, 2);
+
+    matrix m2 = createMatrixFromArray((int[]) {
+                                              0, 0,
+                                              0, 0,
+                                              4, 7},
+                                      3, 2);
+
+    assert(countZeroRows(m1) == 1);
+    assert(countZeroRows(m2) == 2);
+    freeMemMatrix(&m1);
+    freeMemMatrix(&m2);
+}
+
 void test() {
     test_swapMinMaxRowsMatrix();
     test_sortRowsByMinElement();
@@ -464,6 +483,7 @@ void test() {
     test_swapPenultimateRowWithMinimum();
     test_countNonDescendingRowsMatrices();
     test_countValues();
+    test_countZeroRows();
 }
 
 int main() {

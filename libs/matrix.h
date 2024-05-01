@@ -600,4 +600,14 @@ int countValues(const int *a, int n, int value){
     return counter;
 }
 
+int countZeroRows(matrix m){
+    int counter = 0;
+    for (int i = 0; i < m.nRows; i++){
+        if (countValues(m.values[i], m.nCols, 0) == m.nCols)
+            counter++;
+    }
+
+    return counter;
+}
+
 #endif //C_MATRIX_H
