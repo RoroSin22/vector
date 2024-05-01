@@ -560,4 +560,34 @@ void swapPenultimateRowWithMinimum(matrix m){
 
     free(min_col_array);
 }
+
+//13
+bool isNonDescendingSorted(int *a, int n){
+    for (int i = 1; i < n; i++){
+        if (a[i - 1] > a[i])
+            return false;
+    }
+
+    return true;
+}
+
+bool hasAllNonDescendingRows(matrix m){
+    for (int i = 0; i < m.nRows; i++){
+        if (!isNonDescendingSorted(m.values[i], m.nCols))
+            return false;
+    }
+
+    return true;
+}
+
+int countNonDescendingRowsMatrices(matrix *ms, int nMatrix){
+    int count_nondescending_rows_matrices = 0;
+    for (int i = 0; i < nMatrix; i++){
+        if (hasAllNonDescendingRows(ms[i]))
+            count_nondescending_rows_matrices++;
+    }
+
+    return count_nondescending_rows_matrices;
+}
+
 #endif //C_MATRIX_H
