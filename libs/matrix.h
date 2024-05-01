@@ -590,4 +590,14 @@ int countNonDescendingRowsMatrices(matrix *ms, int nMatrix){
     return count_nondescending_rows_matrices;
 }
 
+//14
+int countValues(const int *a, int n, int value){
+    int counter = 0;
+    for (int i = 0; i < n; i++){
+        counter += a[i] == value;
+    }
+
+    return counter;
+}
+
 #endif //C_MATRIX_H

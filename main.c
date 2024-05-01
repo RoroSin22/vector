@@ -437,6 +437,17 @@ void test_countNonDescendingRowsMatrices(){
     freeMemMatrices(m, 4);
 }
 
+void test_countValues(){
+    int a1[5] = {1, 2, 1, 1,3};
+    assert(countValues(a1, 5, 1) == 3);
+
+    int a2[6] = {0, 0, 0, 0, 0, 0};
+    assert(countValues(a2, 6, 0) == 6);
+
+    int a3[5] = {1, 2, 1, 1,3};
+    assert(countValues(a3, 5, 7) == 0);
+}
+
 void test() {
     test_swapMinMaxRowsMatrix();
     test_sortRowsByMinElement();
@@ -452,6 +463,7 @@ void test() {
     test_getNSpecialElement();
     test_swapPenultimateRowWithMinimum();
     test_countNonDescendingRowsMatrices();
+    test_countValues();
 }
 
 int main() {
