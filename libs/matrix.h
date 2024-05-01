@@ -610,4 +610,37 @@ int countZeroRows(matrix m){
     return counter;
 }
 
+//15
+int findNorm(matrix m){
+    position min_position = getMinValuePos(m);
+    position max_position = getMaxValuePos(m);
+
+    int min_value = m.values[min_position.rowIndex][min_position.colIndex];
+    int max_value = m.values[max_position.rowIndex][max_position.colIndex];
+
+    if (min_value < 0)
+        min_value *= -1;
+
+    if (max_value < 0)
+        max_value *= -1;
+
+    return max_value > min_value ? max_value : min_value;
+}
+
+void outputMinNormMatrix(matrix *ms, int nMatrix){
+    int min_norm = INT_MAX;
+    int min_norm_position = -1;
+
+    for (int i = 0; i < nMatrix; i++){
+        int norm = findNorm(ms[i]);
+
+        if(norm < min_norm){
+            min_norm = norm;
+            min_norm_position = i;
+        }
+    }
+
+    outputMatrix(ms[min_norm_position]);
+}
+
 #endif //C_MATRIX_H

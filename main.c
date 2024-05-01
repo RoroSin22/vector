@@ -467,6 +467,24 @@ void test_countZeroRows(){
     freeMemMatrix(&m2);
 }
 
+void test_findNorm(){
+    matrix m1 = createMatrixFromArray((int[]) {
+                                             1,  2, 3,
+                                             4, 5, 6,
+                                             7, 8, 1},
+                                     3, 3);
+    matrix m2 = createMatrixFromArray((int[]) {
+                                             1,  2, 3,
+                                             4, 8, 6,
+                                             7, -9, 1},
+                                     3, 3);
+
+    assert(findNorm(m1) == 8);
+    assert(findNorm(m2) == 9);
+    freeMemMatrix(&m1);
+    freeMemMatrix(&m2);
+}
+
 void test() {
     test_swapMinMaxRowsMatrix();
     test_sortRowsByMinElement();
@@ -484,10 +502,10 @@ void test() {
     test_countNonDescendingRowsMatrices();
     test_countValues();
     test_countZeroRows();
+    test_findNorm();
 }
 
 int main() {
     test();
-
     return 0;
 }
