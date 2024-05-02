@@ -485,6 +485,16 @@ void test_findNorm(){
     freeMemMatrix(&m2);
 }
 
+void test_getNSpecialElement2(){
+    matrix m = createMatrixFromArray((int[]) {
+                                             2,  3, 5, 6, 4,
+                                             6, 2, 3, 8, 12,
+                                             12, 12, 2, 1, 2},
+                                     3, 5);
+    assert(getNSpecialElement2(m) == 4);
+    freeMemMatrix(&m);
+}
+
 void test() {
     test_swapMinMaxRowsMatrix();
     test_sortRowsByMinElement();
@@ -503,6 +513,7 @@ void test() {
     test_countValues();
     test_countZeroRows();
     test_findNorm();
+    test_getNSpecialElement2();
 }
 
 int main() {

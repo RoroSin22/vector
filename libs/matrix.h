@@ -643,4 +643,34 @@ void outputMinNormMatrix(matrix *ms, int nMatrix){
     outputMatrix(ms[min_norm_position]);
 }
 
+//16
+int getNSpecialElement2(matrix m){
+    int counter = 0;
+
+    for (int i = 0; i < m.nRows; i++){
+        position max_position = getMaxValuePos(m);
+
+        for (int j = 0 ; j <= max_position.colIndex; j++){
+            bool is_special = true;
+            for (int k = 0; k < m.nCols; k++){
+                if (k < j){
+                    if(m.values[i][k] >= m.values[i][j]){
+                        is_special = false;
+                        break;
+                    }
+                }
+                if (k > j){
+                    if(m.values[i][k] <= m.values[i][j]){
+                        is_special = false;
+                        break;
+                    }
+                }
+            }
+            counter += is_special;
+        }
+    }
+
+    return counter;
+}
+
 #endif //C_MATRIX_H
