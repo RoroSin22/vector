@@ -14,13 +14,17 @@ void test_findNonSpace(){
     char* exp_res3 = findNonSpace(s3);
     char* exp_res4 = findNonSpace(s4);
 
-    assert(exp_res1[0] == s1[3]);
-    assert(exp_res2[0] == s2[0]);
-    assert(exp_res3[0] == '\0');
-    assert(exp_res4[0] == s4[0]);
+    assert(exp_res1 == &s1[3]);
+    assert(exp_res2 == &s2[0]);
+    assert(exp_res3 == &s3[3]);
+    assert(exp_res4 == &s4[0]);
+}
+
+void test(){
+    test_findNonSpace();
 }
 
 int main() {
-    test_findNonSpace();
+    test();
     return 0;
 }
