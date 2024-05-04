@@ -37,9 +37,45 @@ void test_findSpace(){
     assert(exp_res4 == &s4[2]);
 }
 
+void test_findNonSpaceReverse(){
+    char *s1 = "   Hi";
+    char *s2 = "i ";
+    char s3[10] = "   ";
+    char s4[10] = "h i ";
+
+    char* exp_res1 = findNonSpaceReverse(&s1[4], &*(s1 - 1));
+    char* exp_res2 = findNonSpaceReverse(&s2[1], &*(s2 - 1));
+    char* exp_res3 = findNonSpaceReverse(&s3[2], &*(s3 - 1));
+    char* exp_res4 = findNonSpaceReverse(&s4[3], &*(s4 - 1));
+
+    assert(exp_res1 == &s1[4]);
+    assert(exp_res2 == &s2[0]);
+    assert(exp_res3 == &s3[-1]);
+    assert(exp_res4 == &s4[2]);
+}
+
+void test_findSpaceReverse(){
+    char *s1 = "   Hi";
+    char *s2 = "hii";
+    char s3[10] = "   ";
+    char s4[10] = "h i ";
+
+    char* exp_res1 = findSpaceReverse(&s1[4], &*(s1 - 1));
+    char* exp_res2 = findSpaceReverse(&s2[2], &*(s2 - 1));
+    char* exp_res3 = findSpaceReverse(&s3[2], &*(s3 - 1));
+    char* exp_res4 = findSpaceReverse(&s4[3], &*(s4 - 1));
+
+    assert(exp_res1 == &s1[2]);
+    assert(exp_res2 == &s2[-1]);
+    assert(exp_res3 == &s3[2]);
+    assert(exp_res4 == &s4[3]);
+}
+
 void test(){
     test_findNonSpace();
     test_findSpace();
+    test_findNonSpaceReverse();
+    test_findSpaceReverse();
 }
 
 int main() {
