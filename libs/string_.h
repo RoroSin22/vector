@@ -46,4 +46,9 @@ char* findSpaceReverse(char *rbegin, const char *rend){
     return rbegin;
 }
 
+int strcmp_(const char *lhs, const char *rhs){
+    size_t len_dif = strlen_(lhs) < strlen_(rhs) ? strlen_(rhs) - strlen_(lhs) : strlen_(lhs) - strlen_(rhs);
+    return len_dif == 0 ? 0 : lhs[len_dif - 1] - rhs[len_dif - 1];
+}
+
 #endif //C_STRING__H
