@@ -3,6 +3,10 @@
 #include "libs/string_.h"
 #include <assert.h>
 
+int is_letter(int letter){
+    return letter >= 'a' & letter <= 'z';
+}
+
 void test_findNonSpace(){
     char *s1 = "   Hi";
     char *s2 = "i ";
@@ -84,15 +88,63 @@ void test_strcmp_(){
     assert(strcmp_(s1_3, s2_3) == 1);
 }
 
+void test_copy(){
+    char *s1 = "test";
+    char res1[5];
+    copy(s1, s1 + 4, res1);
+
+    char *s2 = "t t";
+    char res2[4];
+    copy(s2, s2 + 3, res2);
+    printf("%d", strcmp_(res2, s2));
+
+    assert(strcmp_(res1, s1) == 0);
+    assert(strcmp_(res2, s2) == 0);
+}
+
+void test_copyIf(){
+    char *s1 = "t1r2";
+    char res1[3];
+    char *exp_res = "tr";
+    copyIf(s1, s1 + 4, res1, is_letter);
+
+    char *s2 = "abc";
+    char res2[4];
+    copyIf(s2, s2 + 3, res2, is_letter);
+
+
+    assert(strcmp_(res1, exp_res) == 0);
+    assert(strcmp_(res2, s2) == 0);
+}
+
+void test_copyIfReverse(){
+    char *s1 = "t1r2";
+    char res1[3];
+    char *exp_res1 = "rt";
+    copyIfReverse(s1, s1 + 4, res1, is_letter);
+
+    char *s2 = "abc";
+    char res2[3];
+    char *exp_res2 = "cba";
+    copyIfReverse(s2, s2 + 3, res2, is_letter);
+
+    assert(strcmp_(res1, exp_res1) == 0);
+    assert(strcmp_(res2, exp_res2) == 0);
+}
+
 void test(){
     test_findNonSpace();
     test_findSpace();
     test_findNonSpaceReverse();
     test_findSpaceReverse();
     test_strcmp_();
+    test_copy();
+    test_copyIf();
+    test_copyIfReverse();
 }
 
 int main() {
     test();
+
     return 0;
 }
