@@ -72,12 +72,12 @@ void test_findSpaceReverse(){
 }
 
 void test_strcmp_(){
-    char *s1_1 = "bbb";
+    char *s1_1 = "aaa";
     char *s2_1 = "aaa";
-    char *s1_2 = "aa";
+    char *s1_2 = "bba";
     char *s2_2 = "bbb";
-    char *s1_3 = "bbb";
-    char *s2_3 = "aa";
+    char *s1_3 = "aab";
+    char *s2_3 = "aaa";
 
     assert(strcmp_(s1_1, s2_1) == 0);
     assert(strcmp_(s1_2, s2_2) == -1);
