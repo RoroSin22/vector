@@ -73,11 +73,21 @@ void test_replace(){
     ASSERT_STRING(exp2, str2);
 }
 
+void test_areByAlphabet(){
+    char str[] = "aa ab ac";
+    assert(areByAlphabet(str) == 1);
+    char str1[] = "";
+    assert(areByAlphabet(str1) == 1);
+    char str2[] = "That's not by alphabet";
+    assert(areByAlphabet(str2) == 0);
+}
+
 void test(){
     test_removeExtraSpaces();
     test_digitsToEndWordInSentence();
     test_numbersToSpaces();
     test_replace();
+    test_areByAlphabet();
 }
 
 int main() {

@@ -235,4 +235,37 @@ void replace(char *source, char *w1, char *w2) {
 
     *recPtr = '\0';
 }
+
+//6
+void passWordPosition(WordDescriptor* w1, WordDescriptor* w2){
+    w1->begin = w2->begin;
+    w1->end = w2->end;
+}
+int areWordsEqual(WordDescriptor w1, WordDescriptor w2){
+    char *w1_letter = w1.begin;
+    char *w2_letter = w2.begin;
+    while (w1_letter < w1.end && w2_letter < w2.end && *w1_letter == *w2_letter) {
+        w1_letter++;
+        w2_letter++;
+    }
+
+    return *w1_letter - *w2_letter;
+}
+
+bool areByAlphabet(char* str){
+    WordDescriptor first_word;
+    WordDescriptor second_word;
+
+    if (getWord(str, &first_word)) {
+        while (getWord(first_word.end, &second_word)) {
+            if (areWordsEqual(first_word, second_word) > 0)
+                return 0;
+            passWordPosition(&first_word, &second_word);
+        }
+    }
+
+    return 1;
+}
+
+
 #endif //C_STRING__H
