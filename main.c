@@ -52,10 +52,32 @@ void test_numbersToSpaces(){
     ASSERT_STRING(exp3, s3_changed);
 }
 
+void test_replace(){
+    char str[] = "";
+    char w1[] = "";
+    char w2[] = "";
+    replace(str, w1, w2);
+    char exp[] = "";
+    ASSERT_STRING(exp, str);
+    char str1[] = "I'm fine";
+    char w1_1[] = "fine";
+    char w2_1[] = "tired";
+    replace(str1, w1_1, w2_1);
+    char exp1[] = "I'm tired";
+    ASSERT_STRING(exp1, str1);
+    char str2[] = "  That's a simple word, really simple   ";
+    char w1_2[] = "simple";
+    char w2_2[] = "hard";
+    replace(str2, w1_2, w2_2);
+    char exp2[] = "  That's a hard word, really hard   ";
+    ASSERT_STRING(exp2, str2);
+}
+
 void test(){
     test_removeExtraSpaces();
     test_digitsToEndWordInSentence();
     test_numbersToSpaces();
+    test_replace();
 }
 
 int main() {

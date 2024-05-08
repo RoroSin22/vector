@@ -168,6 +168,7 @@ bool getWordReverse(char *rbegin, char *rend, WordDescriptor *word){
     return 1;
 }
 
+//4
 void numbersToSpaces(char* source,  char* s){
     char* source_end = source + strlen_(source);
     char *buffer_end = copy(source, source_end, _stringBuffer);
@@ -188,4 +189,50 @@ void numbersToSpaces(char* source,  char* s){
     *s = '\0';
 }
 
+//5
+char* getEndOfString(char* source){
+    return source + strlen_(source);
+}
+
+bool wordcmp(char* w1, char* w2){
+    while(*w1 != '\0'){
+        if (*w1 != *w2)
+            return 0;
+        w1++;
+        w2++;
+    }
+    return 1;
+}
+
+void replace(char *source, char *w1, char *w2) {
+    size_t w1Size = strlen_(w1);
+    size_t w2Size = strlen_(w2);
+    WordDescriptor word1 = {w1, w1 + w1Size};
+    WordDescriptor word2 = {w2, w2 + w2Size};
+
+    char *readPtr, *recPtr;
+    if (w1Size >= w2Size) {
+        readPtr = source;
+        recPtr = source;
+    } else {
+        char* last_symbol = copy(source, getEndOfString(source), _stringBuffer);
+        *last_symbol = '\0';
+        readPtr = _stringBuffer;
+        recPtr = source;
+    }
+
+    while (*readPtr != '\0') {
+        if (wordcmp(w1, readPtr)) {
+            copy(word2.begin, word2.end, recPtr);
+            readPtr += w1Size;
+            recPtr += w2Size;
+        } else {
+            *recPtr = *readPtr;
+            readPtr++;
+            recPtr++;
+        }
+    }
+
+    *recPtr = '\0';
+}
 #endif //C_STRING__H
