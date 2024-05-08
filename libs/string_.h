@@ -12,6 +12,19 @@ __FILE__, __FUNCTION__, __LINE__)
 
 char _stringBuffer[MAX_STRING_SIZE + 1];
 
+typedef struct WordDescriptor {
+    char *begin; // позиция начала слова
+    char *end; // позиция первого символа, после последнего символа слова
+} WordDescriptor;
+
+typedef struct BagOfWords {
+    WordDescriptor words[MAX_N_WORDS_IN_STRING];
+    size_t size;
+} BagOfWords;
+
+BagOfWords _bag;
+BagOfWords _bag2;
+
 
 size_t strlen_(const char *begin) {
     char *end = begin;
@@ -124,10 +137,6 @@ void  removeExtraSpaces(char *s) {
 }
 
 //3
-typedef struct WordDescriptor {
-    char *begin; // позиция начала слова
-    char *end; // позиция первого символа, после последнего символа слова
-} WordDescriptor;
 
 bool getWord(char *beginSearch, WordDescriptor *word) {
     word->begin = findNonSpace(beginSearch);
@@ -267,5 +276,35 @@ bool areByAlphabet(char* str){
     return 1;
 }
 
+//7
+void getBagOfWords(BagOfWords *bag, char *s){
+    WordDescriptor word = {s, s};
+    size_t word_index = 0;
+    bag->size = 0;
+
+    while(getWord(word.end, &word)){
+        passWordPosition(&bag->words[word_index], &word);
+        word_index++;
+        bag->size++;
+    }
+}
+
+void outputWord(WordDescriptor word){
+    int word_size = word.end - word.begin;
+    printf("\"");
+    for (int i = 0; i < word_size; i++)
+        printf("%c", word.begin[i]);
+    printf("\" ");
+}
+
+void outputBagOfWords(BagOfWords bag, char *s){
+    getBagOfWords(&bag, s);
+    for (int i = 0; i < bag.size; i++)
+        outputWord(bag.words[i]);
+}
+
+void outputWordsInString(char *s){
+    outputBagOfWords(_bag, s);
+}
 
 #endif //C_STRING__H

@@ -91,6 +91,7 @@ void test(){
 }
 
 int main() {
-    test();
+    char s[] = "";
+    outputWordsInString(s);
     return 0;
 }
