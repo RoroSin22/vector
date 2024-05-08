@@ -29,9 +29,33 @@ void test_digitsToEndWordInSentence(){
     ASSERT_STRING(exp1, str1);
 }
 
+void test_numbersToSpaces(){
+    char s[] = "";
+    char s_changed[1];
+    char exp[] = "";
+    numbersToSpaces(s, s_changed);
+    ASSERT_STRING(exp, s_changed);
+    char s1[] = "a1b2c";
+    char s1_changed[7];
+    char exp1[] = "a b  c";
+    numbersToSpaces(s1, s1_changed);
+    ASSERT_STRING(exp1, s1_changed);
+    char s2[] = "4";
+    char s2_changed[5];
+    char exp2[] = "    ";
+    numbersToSpaces(s2, s2_changed);
+    ASSERT_STRING(exp2, s2_changed);
+    char s3[] = "2test3";
+    char s3_changed[10];
+    char exp3[] = "  test   ";
+    numbersToSpaces(s3, s3_changed);
+    ASSERT_STRING(exp3, s3_changed);
+}
+
 void test(){
     test_removeExtraSpaces();
     test_digitsToEndWordInSentence();
+    test_numbersToSpaces();
 }
 
 int main() {

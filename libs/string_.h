@@ -3,6 +3,9 @@
 #define ASSERT_STRING(expected, got) assertString(expected, got, \
 __FILE__, __FUNCTION__, __LINE__)
 #define MAX_STRING_SIZE 100
+#define MAX_N_WORDS_IN_STRING 100
+#define MAX_WORD_SIZE 20
+#define NUMBER_SYMBOL 48
 
 #include <ctype.h>
 #include <memory.h>
@@ -126,7 +129,7 @@ typedef struct WordDescriptor {
     char *end; // позиция первого символа, после последнего символа слова
 } WordDescriptor;
 
-int getWord(char *beginSearch, WordDescriptor *word) {
+bool getWord(char *beginSearch, WordDescriptor *word) {
     word->begin = findNonSpace(beginSearch);
     if (*word->begin == '\0')
         return 0;
@@ -156,5 +159,33 @@ void digitsToEndWordInSentence(char* s){
     }
 }
 
+bool getWordReverse(char *rbegin, char *rend, WordDescriptor *word){
+    word->begin = findNonSpaceReverse(rbegin, rend);
+    if (*word->begin == '\0')
+        return 0;
+
+    word->end = findSpaceReverse(word->begin, rend);
+    return 1;
+}
+
+void numbersToSpaces(char* source,  char* s){
+    char* source_end = source + strlen_(source);
+    char *buffer_end = copy(source, source_end, _stringBuffer);
+    char *buffer = _stringBuffer;
+
+    while (buffer != buffer_end){
+        if(isdigit(*buffer)){
+            for (int i = 0; i < *buffer - NUMBER_SYMBOL; i++){
+                *s = ' ';
+                s++;
+            }
+        } else{
+            *s = *buffer;
+            s++;
+        }
+        buffer++;
+    }
+    *s = '\0';
+}
 
 #endif //C_STRING__H
