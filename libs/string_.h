@@ -331,4 +331,33 @@ int countPalindromes(char* str){
     return counter;
 }
 
+//9
+void combinedSting(char* s1, char* s2, char* res){
+    WordDescriptor word1, word2;
+    bool isW1Found, isW2Found;
+    char *beginSearch1 = s1, *beginSearch2 = s2;
+    char* current = res;
+
+    while ((isW1Found = getWord(beginSearch1, &word1)),
+            (isW2Found = getWord(beginSearch2, &word2)),
+            isW1Found || isW2Found) {
+        if (isW1Found){
+            copy(word1.begin, word1.end, current);
+            current += word1.end - word1.begin;
+            *current = ' ';
+            current++;
+            beginSearch1 = word1.end;
+        }
+        if (isW2Found){
+            copy(word2.begin, word2.end, current);
+            current += word2.end - word2.begin ;
+            *current = ' ';
+            current++;
+            beginSearch2 = word2.end;
+        }
+    }
+    current--;
+    *current = '\0';
+}
+
 #endif //C_STRING__H

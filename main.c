@@ -100,6 +100,27 @@ void test_countPalindromes(){
     assert(countPalindromes(s1) == 2);
 }
 
+void test_combinedString(){
+    char s1[] = "";
+    char s2[] = "";
+    char res[0];
+    char exp[] = "";
+    combinedSting(s1,s2,res);
+    ASSERT_STRING(res, exp);
+    char s1_1[] = "this work like";
+    char s2_1[] = "laboratory feels eternity";
+    char res_1[strlen_(s1_1) + strlen_(s2_1)];
+    char exp_1[] = "this laboratory work feels like eternity";
+    combinedSting(s1_1,s2_1,res_1);
+    ASSERT_STRING(res_1, exp_1);
+    char s1_2[] = "just";
+    char s2_2[] = "another test";
+    char res_2[strlen_(s1_2) + strlen_(s2_2)];
+    char exp_2[] = "just another test";
+    combinedSting(s1_2,s2_2,res_2);
+    ASSERT_STRING(res_2, exp_2);
+}
+
 void test(){
     test_removeExtraSpaces();
     test_digitsToEndWordInSentence();
@@ -108,6 +129,7 @@ void test(){
     test_areByAlphabet();
     test_isPalindrome();
     test_countPalindromes();
+    test_combinedString();
 }
 
 int main() {
