@@ -307,4 +307,28 @@ void outputWordsInString(char *s){
     outputBagOfWords(_bag, s);
 }
 
+//8
+
+bool isPalindrome(WordDescriptor word){
+    char* left_letter = word.begin;
+    char* right_letter = word.end - 1;
+    while (left_letter < right_letter){
+        if(*left_letter != *right_letter)
+            return 0;
+        left_letter++;
+        right_letter--;
+    }
+    return 1;
+}
+
+int countPalindromes(char* str){
+    WordDescriptor word = {str, str};
+    int counter = 0;
+
+    while(getWord(word.end, &word))
+        counter += isPalindrome(word);
+
+    return counter;
+}
+
 #endif //C_STRING__H

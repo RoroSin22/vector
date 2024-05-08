@@ -82,16 +82,35 @@ void test_areByAlphabet(){
     assert(areByAlphabet(str2) == 0);
 }
 
+void test_isPalindrome(){
+    char *str = "racecar";
+    WordDescriptor word;
+    getWord(str, &word);
+    assert(isPalindrome(word) == 1);
+    char *str1 = "racecars";
+    WordDescriptor word1;
+    getWord(str1, &word1);
+    assert(!isPalindrome(word1));
+}
+
+void test_countPalindromes(){
+    char s[] = "";
+    assert(countPalindromes(s) == 0);
+    char s1[] = "aaa bb ab";
+    assert(countPalindromes(s1) == 2);
+}
+
 void test(){
     test_removeExtraSpaces();
     test_digitsToEndWordInSentence();
     test_numbersToSpaces();
     test_replace();
     test_areByAlphabet();
+    test_isPalindrome();
+    test_countPalindromes();
 }
 
 int main() {
-    char s[] = "";
-    outputWordsInString(s);
+    test();
     return 0;
 }
