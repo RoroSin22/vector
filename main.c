@@ -160,6 +160,17 @@ void test_lastWordFromFirst(){
     assert(word_1.end == NULL && word_1.begin == NULL);
 }
 
+void test_areEqualWordInString(){
+    char str[] = "";
+    assert(areEqualWordInString(str) == 0);
+    char str1[] = "This work is hard really hard to be honest";
+    assert(areEqualWordInString(str1) == 1);
+    char str2[] = "This work is just hard";
+    assert(areEqualWordInString(str2) == 0);
+    char str3[] = "  hard    hard        hard   ";
+    assert(areEqualWordInString(str3) == 1);
+}
+
 void test(){
     test_removeExtraSpaces();
     test_digitsToEndWordInSentence();
@@ -171,6 +182,7 @@ void test(){
     test_combinedString();
     testAll_getWordBeforeFirstWordWithA();
     test_lastWordFromFirst();
+    test_areEqualWordInString();
 }
 
 int main() {

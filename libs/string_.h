@@ -262,6 +262,7 @@ void passWordPosition(WordDescriptor* w1, WordDescriptor* w2){
 int areWordsEqual(WordDescriptor w1, WordDescriptor w2){
     char *w1_letter = w1.begin;
     char *w2_letter = w2.begin;
+
     while (w1_letter < w1.end && w2_letter < w2.end && *w1_letter == *w2_letter) {
         w1_letter++;
         w2_letter++;
@@ -431,6 +432,21 @@ WordDescriptor lastWordFromFirst(char* str1, char* str2){
     }
     WordDescriptor word = {NULL, NULL};
     return word;
+}
+
+//13
+
+bool areEqualWordInString(char* str){
+    getBagOfWords(&_bag, str);
+
+    for (int i = 0; i < _bag.size; i++){
+        for (int j = i + 1; j < _bag.size; j++){
+            if (areWordsEqual(_bag.words[i], _bag.words[j]) == 0)
+                return 1;
+        }
+    }
+
+    return 0;
 }
 
 #endif //C_STRING__H
