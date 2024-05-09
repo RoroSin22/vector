@@ -12,6 +12,13 @@ __FILE__, __FUNCTION__, __LINE__)
 
 char _stringBuffer[MAX_STRING_SIZE + 1];
 
+typedef enum WordBeforeFirstWordWithAReturnCode {
+    FIRST_WORD_WITH_A,
+    NOT_FOUND_A_WORD_WITH_A,
+    WORD_FOUND,
+    EMPTY_STRING
+} WordBeforeFirstWordWithAReturnCode;
+
 typedef struct WordDescriptor {
     char *begin; // позиция начала слова
     char *end; // позиция первого символа, после последнего символа слова
@@ -55,17 +62,17 @@ char* findSpace(char *begin){
     return begin;
 }
 
-char* findNonSpaceReverse(char *rbegin, const char *rend){
-    while (*rbegin != *rend && isspace(*rbegin))
+char *findNonSpaceReverse(char *rbegin, const char *rend) {
+    while (isspace(*rbegin) && rbegin <= rend) {
         rbegin--;
-
+    }
     return rbegin;
 }
 
-char* findSpaceReverse(char *rbegin, const char *rend){
-    while (*rbegin != *rend && !isspace(*rbegin))
+char *findSpaceReverse(char *rbegin, const char *rend) {
+    while (!isspace(*rbegin) && rbegin != rend) {
         rbegin--;
-
+    }
     return rbegin;
 }
 
@@ -168,12 +175,14 @@ void digitsToEndWordInSentence(char* s){
     }
 }
 
-bool getWordReverse(char *rbegin, char *rend, WordDescriptor *word){
-    word->begin = findNonSpaceReverse(rbegin, rend);
-    if (*word->begin == '\0')
+int getWordReverse(char *rbegin, char *rend, WordDescriptor *word) {
+    word->end = findNonSpaceReverse(rbegin, rend);
+
+    if (word->end == rend)
         return 0;
 
-    word->end = findSpaceReverse(word->begin, rend);
+    word->begin = findSpaceReverse(rbegin - 1, rend);
+
     return 1;
 }
 
@@ -358,6 +367,51 @@ void combinedSting(char* s1, char* s2, char* res){
     }
     current--;
     *current = '\0';
+}
+
+//10
+/*void reverseWordsInString(char* str){
+    copy(str, str + strlen_(str), _stringBuffer);
+    WordDescriptor word;
+
+    char* current = str;
+
+    while (getWordReverse(word.begin, _stringBuffer, &word)){
+        copy(word.begin, word.end, current);
+        current += word.end - word.begin;
+        *current = ' ';
+        current++;
+    }
+
+    *current = '\0';
+    replace(str, "  ", " ");
+}*/
+
+//11
+bool checkLetter(char* letter_in_word, char letter){
+    return *letter_in_word == letter || *letter_in_word == letter - 32;
+}
+
+WordBeforeFirstWordWithAReturnCode getWordBeforeFirstWordWithA(char *s, WordDescriptor *w){
+    WordDescriptor first_word;
+    WordDescriptor second_word;
+    if(getWord(s, &first_word)){
+        if(*first_word.begin != 'a' && *first_word.begin != 'A') {
+            while(getWord(first_word.end, &second_word)){
+                if (checkLetter(second_word.begin, 'a')){
+                    passWordPosition(w, &first_word);
+                    return WORD_FOUND;
+                }
+                passWordPosition(&first_word, &second_word);
+            }
+
+            return NOT_FOUND_A_WORD_WITH_A;
+        }
+
+        return FIRST_WORD_WITH_A;
+    }
+
+    return EMPTY_STRING;
 }
 
 #endif //C_STRING__H
