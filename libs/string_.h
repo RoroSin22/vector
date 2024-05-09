@@ -414,4 +414,23 @@ WordBeforeFirstWordWithAReturnCode getWordBeforeFirstWordWithA(char *s, WordDesc
     return EMPTY_STRING;
 }
 
+//12
+void wordDescriptorToString(WordDescriptor word, char *destination){
+    copy(word.begin, word.end, destination);
+}
+
+WordDescriptor lastWordFromFirst(char* str1, char* str2){
+    getBagOfWords(&_bag, str1);
+    getBagOfWords(&_bag2, str2);
+
+    for (int i = _bag.size - 1; i >= 0; i--){
+        for (int j = 0; j < _bag2.size; j++){
+            if(areWordsEqual(_bag.words[i], _bag2.words[j]) == 0)
+                return _bag.words[i];
+        }
+    }
+    WordDescriptor word = {NULL, NULL};
+    return word;
+}
+
 #endif //C_STRING__H

@@ -146,6 +146,20 @@ void testAll_getWordBeforeFirstWordWithA() {
     assert(getWordBeforeFirstWordWithA(s4, &word) == NOT_FOUND_A_WORD_WITH_A);
 }
 
+void test_lastWordFromFirst(){
+    char str1[] = "aaa bbb ccc";
+    char str2[] = "dff bbb aas aaa";
+    WordDescriptor word = lastWordFromFirst(str1, str2);
+    char str_exp[4];
+    wordDescriptorToString(word, &str_exp);
+    char exp[] = "bbb";
+    ASSERT_STRING(exp, str_exp);
+    char str1_1[] = "";
+    char str2_1[] = "";
+    WordDescriptor word_1 = lastWordFromFirst(str1_1, str2_1);
+    assert(word_1.end == NULL && word_1.begin == NULL);
+}
+
 void test(){
     test_removeExtraSpaces();
     test_digitsToEndWordInSentence();
@@ -156,9 +170,10 @@ void test(){
     test_countPalindromes();
     test_combinedString();
     testAll_getWordBeforeFirstWordWithA();
+    test_lastWordFromFirst();
 }
 
 int main() {
-    testAll_getWordBeforeFirstWordWithA();
+    test();
     return 0;
 }
