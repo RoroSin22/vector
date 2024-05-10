@@ -171,6 +171,15 @@ void test_areEqualWordInString(){
     assert(areEqualWordInString(str3) == 1);
 }
 
+void test_areWordsSameLetters(){
+    char str[] = "";
+    assert(areWordsSameLetters(str) == 0);
+    char str1[] = "I deem i need a meed the best of all";
+    assert(areWordsSameLetters(str1) == 1);
+    char str2[] = "there are no similar words";
+    assert(areWordsSameLetters(str2) == 0);
+}
+
 void test(){
     test_removeExtraSpaces();
     test_digitsToEndWordInSentence();
@@ -183,6 +192,7 @@ void test(){
     testAll_getWordBeforeFirstWordWithA();
     test_lastWordFromFirst();
     test_areEqualWordInString();
+    test_areWordsSameLetters();
 }
 
 int main() {

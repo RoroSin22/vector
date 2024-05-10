@@ -9,8 +9,13 @@ __FILE__, __FUNCTION__, __LINE__)
 
 #include <ctype.h>
 #include <memory.h>
+#include <stdlib.h>
 
 char _stringBuffer[MAX_STRING_SIZE + 1];
+
+int compareChar(const void *a, const void *b) {
+    return (*(char *)a - *(char *)b);
+}
 
 typedef enum WordBeforeFirstWordWithAReturnCode {
     FIRST_WORD_WITH_A,
@@ -447,6 +452,17 @@ bool areEqualWordInString(char* str){
     }
 
     return 0;
+}
+
+//14
+bool areWordsSameLetters(char* str){
+    copy(str, getEndOfString(str), _stringBuffer);
+    WordDescriptor word = {_stringBuffer, _stringBuffer};
+
+    while(getWord(word.end, &word))
+        qsort(word.begin, word.end - word.begin,sizeof(char), compareChar);
+
+    return areEqualWordInString(_stringBuffer);
 }
 
 #endif //C_STRING__H
