@@ -216,6 +216,24 @@ void test_deletePalindromes(){
     ASSERT_STRING(exp_res1, s1);
 }
 
+void test_addToSmallerString(){
+    char s1[30] = "";
+    char s2[30] = "";
+    addToSmallerString(s1, s2);
+    char* exp = "";
+    ASSERT_STRING(exp, s2);
+    char s1_1[30] = "a bb ccc dddd eee ff g";
+    char s2_1[30] = "1 22 333";
+    addToSmallerString(s1_1, s2_1);
+    char* exp_1 = "1 22 333 dddd eee ff g";
+    ASSERT_STRING(exp_1, s2_1);
+    char s1_2[30] = "a bb ccc";
+    char s2_2[30] = "1 22 333 4444 555 66 7";
+    addToSmallerString(s1_2, s2_2);
+    char* exp_2 = "a bb ccc 4444 555 66 7";
+    ASSERT_STRING(exp_2, s1_2);
+}
+
 void test(){
     test_removeExtraSpaces();
     test_digitsToEndWordInSentence();
@@ -232,6 +250,7 @@ void test(){
     test_deleteSameAsLast();
     test_firstWordFromFirst();
     test_deletePalindromes();
+    test_addToSmallerString();
 }
 
 int main() {

@@ -377,24 +377,6 @@ void combinedSting(char* s1, char* s2, char* res){
     *current = '\0';
 }
 
-//10
-/*void reverseWordsInString(char* str){
-    copy(str, str + strlen_(str), _stringBuffer);
-    WordDescriptor word;
-
-    char* current = str;
-
-    while (getWordReverse(word.begin, _stringBuffer, &word)){
-        copy(word.begin, word.end, current);
-        current += word.end - word.begin;
-        *current = ' ';
-        current++;
-    }
-
-    *current = '\0';
-    replace(str, "  ", " ");
-}*/
-
 //11
 bool checkLetter(char* letter_in_word, char letter){
     return *letter_in_word == letter || *letter_in_word == letter - 32;
@@ -516,6 +498,26 @@ void deletePalindromes(char* str){
 
     }
     *current = '\0';
+}
+
+//18
+void addToSmallerString(char* str1, char* str2){
+    getBagOfWords(&_bag, str1);
+    getBagOfWords(&_bag2, str2);
+    bool is_first_longer = _bag.size > _bag2.size;
+
+
+    if (_bag.size != _bag2.size){
+        if (is_first_longer){
+            *_bag2.words[_bag2.size - 1].end = ' ';
+            copy(_bag.words[_bag2.size].begin, _bag.words[_bag.size - 1].end, _bag2.words[_bag2.size - 1].end + 1);
+            str2[strlen_(str1)] = '\0';
+        }else{
+            *_bag.words[_bag.size - 1].end = ' ';
+            copy(_bag2.words[_bag.size].begin, _bag2.words[_bag2.size - 1].end, _bag.words[_bag.size - 1].end + 1);
+            str1[strlen_(str2)] = '\0';
+        }
+    }
 }
 
 #endif //C_STRING__H
