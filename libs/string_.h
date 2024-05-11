@@ -6,10 +6,13 @@ __FILE__, __FUNCTION__, __LINE__)
 #define MAX_N_WORDS_IN_STRING 100
 #define MAX_WORD_SIZE 20
 #define NUMBER_SYMBOL 48
+#define LETTERS_AMOUNT 26
+#define LETTERS_FROM_ZERO 'a'
 
 #include <ctype.h>
 #include <memory.h>
 #include <stdlib.h>
+#include "bit_set.h"
 
 char _stringBuffer[MAX_STRING_SIZE + 1];
 
@@ -518,6 +521,31 @@ void addToSmallerString(char* str1, char* str2){
             str1[strlen_(str2)] = '\0';
         }
     }
+}
+
+//19
+bool isEveryLetterInString(char* str, char* word){
+    bitset letters_str = bitset_create(LETTERS_AMOUNT);
+    bitset letters_word = bitset_create(LETTERS_AMOUNT);
+    int word_len = strlen_(word);
+    int str_len = strlen_(str);
+    char current_symbol;
+
+    for (int i = 0; i < str_len; i++){
+        current_symbol = str[i];
+        if (isalpha(current_symbol))
+            bitset_insert(&letters_str, (current_symbol - LETTERS_FROM_ZERO));
+    }
+
+    for (int i = 0; i < word_len; i++){
+        current_symbol = word[i];
+        if (isalpha(current_symbol))
+            bitset_insert(&letters_word, (int) (current_symbol - LETTERS_FROM_ZERO));
+    }
+
+    bitset res = bitset_intersection(letters_str, letters_word);
+
+    return bitset_isEqual(res, letters_word);
 }
 
 #endif //C_STRING__H

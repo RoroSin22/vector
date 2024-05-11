@@ -234,6 +234,18 @@ void test_addToSmallerString(){
     ASSERT_STRING(exp_2, s1_2);
 }
 
+void test_isEveryLetterInString(){
+    char str[] = "";
+    char word[] = "";
+    assert(isEveryLetterInString(str, word));
+    char str1[] = "there is every letter from the word below";
+    char word1[] = "forest";
+    assert(isEveryLetterInString(str1, word1));
+    char str2[] = "this string lacks some letters";
+    char word2[] = "refrigerator";
+    assert(!isEveryLetterInString(str2, word2));
+}
+
 void test(){
     test_removeExtraSpaces();
     test_digitsToEndWordInSentence();
@@ -251,6 +263,7 @@ void test(){
     test_firstWordFromFirst();
     test_deletePalindromes();
     test_addToSmallerString();
+    test_isEveryLetterInString();
 }
 
 int main() {
