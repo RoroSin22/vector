@@ -205,6 +205,17 @@ void test_firstWordFromFirst(){
     assert(word_1.end == NULL && word_1.begin == NULL);
 }
 
+void test_deletePalindromes(){
+    char s[] = "";
+    deletePalindromes(s);
+    char exp_res[] = "";
+    ASSERT_STRING(exp_res, s);
+    char s1[] = "word aboba word lol word";
+    deletePalindromes(s1);
+    char exp_res1[] = "word word word";
+    ASSERT_STRING(exp_res1, s1);
+}
+
 void test(){
     test_removeExtraSpaces();
     test_digitsToEndWordInSentence();
@@ -220,6 +231,7 @@ void test(){
     test_areWordsSameLetters();
     test_deleteSameAsLast();
     test_firstWordFromFirst();
+    test_deletePalindromes();
 }
 
 int main() {

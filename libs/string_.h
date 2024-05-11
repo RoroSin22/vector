@@ -501,4 +501,21 @@ WordDescriptor firstWordFromFirst(char* str1, char* str2){
     WordDescriptor word = {NULL, NULL};
     return word;
 }
+
+//17
+void deletePalindromes(char* str){
+    copy(str, getEndOfString(str), _stringBuffer);
+    getBagOfWords(&_bag, str);
+    char* current = str;
+
+    for (int i = 0; i < _bag.size ; i++){
+        if (!isPalindrome(_bag.words[i])){
+            copy(_bag.words[i].begin, _bag.words[i].end + 1, current);
+            current += _bag.words[i].end - _bag.words[i].begin + 1;
+        }
+
+    }
+    *current = '\0';
+}
+
 #endif //C_STRING__H
