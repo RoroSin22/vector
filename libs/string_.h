@@ -218,9 +218,10 @@ char* getEndOfString(char* source){
 }
 
 bool wordcmp(char* w1, char* w2){
-    while(*w1 != '\0'){
+    while(*w1 != '\0' && !isspace(*w1)){
         if (*w1 != *w2)
             return 0;
+
         w1++;
         w2++;
     }
@@ -327,6 +328,7 @@ void outputWordsInString(char *s){
 bool isPalindrome(WordDescriptor word){
     char* left_letter = word.begin;
     char* right_letter = word.end - 1;
+
     while (left_letter < right_letter){
         if(*left_letter != *right_letter)
             return 0;
@@ -401,6 +403,7 @@ bool checkLetter(char* letter_in_word, char letter){
 WordBeforeFirstWordWithAReturnCode getWordBeforeFirstWordWithA(char *s, WordDescriptor *w){
     WordDescriptor first_word;
     WordDescriptor second_word;
+
     if(getWord(s, &first_word)){
         if(*first_word.begin != 'a' && *first_word.begin != 'A') {
             while(getWord(first_word.end, &second_word)){
@@ -463,6 +466,22 @@ bool areWordsSameLetters(char* str){
         qsort(word.begin, word.end - word.begin,sizeof(char), compareChar);
 
     return areEqualWordInString(_stringBuffer);
+}
+
+//15
+void deleteSameAsLast(char* str){
+    copy(str, getEndOfString(str), _stringBuffer);
+    getBagOfWords(&_bag, str);
+    char* current = str;
+
+    for (int i = 0; i < _bag.size ; i++){
+        if (areWordsEqual(_bag.words[i], _bag.words[_bag.size - 1]) != 0 || i == _bag.size - 1){
+            copy(_bag.words[i].begin, _bag.words[i].end + 1, current);
+            current += _bag.words[i].end - _bag.words[i].begin + 1;
+        }
+
+    }
+    *current = '\0';
 }
 
 #endif //C_STRING__H

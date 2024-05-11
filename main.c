@@ -180,6 +180,17 @@ void test_areWordsSameLetters(){
     assert(areWordsSameLetters(str2) == 0);
 }
 
+void test_deleteSameAsLast(){
+    char str[] = "";
+    char exp[] = "";
+    deleteSameAsLast(str);
+    ASSERT_STRING(exp, str);
+    char str1[] = "It's the last word - WORD ; Joking that's the last word - the ";
+    char exp1[] = "It's last word - WORD ; Joking that's last word - the ";
+    deleteSameAsLast(str1);
+    ASSERT_STRING(exp1, str1);
+}
+
 void test(){
     test_removeExtraSpaces();
     test_digitsToEndWordInSentence();
@@ -193,6 +204,7 @@ void test(){
     test_lastWordFromFirst();
     test_areEqualWordInString();
     test_areWordsSameLetters();
+    test_deleteSameAsLast();
 }
 
 int main() {
