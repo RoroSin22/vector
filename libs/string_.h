@@ -426,6 +426,7 @@ WordBeforeFirstWordWithAReturnCode getWordBeforeFirstWordWithA(char *s, WordDesc
 //12
 void wordDescriptorToString(WordDescriptor word, char *destination){
     copy(word.begin, word.end, destination);
+    destination[word.end - word.begin] = '\0';
 }
 
 WordDescriptor lastWordFromFirst(char* str1, char* str2){
@@ -438,6 +439,7 @@ WordDescriptor lastWordFromFirst(char* str1, char* str2){
                 return _bag.words[i];
         }
     }
+
     WordDescriptor word = {NULL, NULL};
     return word;
 }
@@ -484,4 +486,19 @@ void deleteSameAsLast(char* str){
     *current = '\0';
 }
 
+//16
+WordDescriptor firstWordFromFirst(char* str1, char* str2){
+    getBagOfWords(&_bag, str1);
+    getBagOfWords(&_bag2, str2);
+
+    for (int i = 1; i < _bag.size; i++){
+        for (int j = 0; j < _bag2.size; j++){
+            if(areWordsEqual(_bag.words[i], _bag2.words[j]) == 0)
+                return _bag.words[i - 1];
+        }
+    }
+
+    WordDescriptor word = {NULL, NULL};
+    return word;
+}
 #endif //C_STRING__H

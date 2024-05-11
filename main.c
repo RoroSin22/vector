@@ -191,6 +191,20 @@ void test_deleteSameAsLast(){
     ASSERT_STRING(exp1, str1);
 }
 
+void test_firstWordFromFirst(){
+    char str1[] = "aaa bbb ccc ";
+    char str2[] = "dff bbb aas aad ";
+    WordDescriptor word = firstWordFromFirst(str1, str2);
+    char str_exp[4];
+    wordDescriptorToString(word, &str_exp);
+    char exp[] = "aaa";
+    ASSERT_STRING(exp, str_exp);
+    char str1_1[] = "";
+    char str2_1[] = "";
+    WordDescriptor word_1 = firstWordFromFirst(str1_1, str2_1);
+    assert(word_1.end == NULL && word_1.begin == NULL);
+}
+
 void test(){
     test_removeExtraSpaces();
     test_digitsToEndWordInSentence();
@@ -205,6 +219,7 @@ void test(){
     test_areEqualWordInString();
     test_areWordsSameLetters();
     test_deleteSameAsLast();
+    test_firstWordFromFirst();
 }
 
 int main() {
