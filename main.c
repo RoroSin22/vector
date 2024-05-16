@@ -1,269 +1,169 @@
 #include <stdio.h>
-#include <stdbool.h>
-#include "libs/string_.h"
+#include <stdlib.h>
+#include "libs/matrix.h"
 #include <assert.h>
+#include <time.h>
 
-void test_removeExtraSpaces(){
-    char str[] = "";
-    char exp[] = "";
-    removeExtraSpaces(str);
-    ASSERT_STRING(exp, str);
-    char str1[] = "I'm   so";
-    char exp1[] = "I'm so";
-    removeExtraSpaces(str1);
-    ASSERT_STRING(exp1, str1);
-    char str2[] = "I'm  so   tired  ";
-    char exp2[] = "I'm so tired ";
-    removeExtraSpaces(str2);
-    ASSERT_STRING(exp2, str2);
+//1
+
+void transposeMatrixFile(const char* file_name){
+    FILE *file = fopen(file_name, "r");
+
+    int n;
+    fscanf(file, "%d", &n);
+
+    matrix matrix = getMemMatrix(n, n);
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++)
+            fscanf(file, "%d", &matrix.values[i][j]);
+    }
+
+    fclose(file);
+
+    file = fopen(file_name, "w");
+
+    transposeSquareMatrix(&matrix);
+
+    fprintf(file, "%d\n", n);
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++)
+            fprintf(file, "%d ", matrix.values[i][j]);
+
+        fprintf(file, "\n");
+    }
+
+    fclose(file);
+    freeMemMatrix(&matrix);
 }
 
-void test_digitsToEndWordInSentence(){
-    char str[] = "";
-    char exp[] = "";
-    digitsToEndWordInSentence(str);
-    ASSERT_STRING(exp, str);
-    char str1[] = "11he he11 1he1 h1e1";
-    char exp1[] = "he11 he11 he11 he11";
-    digitsToEndWordInSentence(str1);
-    ASSERT_STRING(exp1, str1);
+void test1_1(){
+    char file_name[] = "aboba";
+    int n = 1;
+    int element = 10;
+
+    FILE* file = fopen(file_name, "w");
+
+    fprintf(file, "%d\n", n);
+    fprintf(file, "%d\n", element);
+
+    fclose(file);
+
+    transposeMatrixFile(file_name);
+
+    file = fopen(file_name, "r");
+
+    int n_res, element_res;
+    fscanf(file, "%d\n", &n_res);
+    fscanf(file, "%d\n", &element_res);
+
+    assert(element == element_res);
+
+    fclose(file);
 }
 
-void test_numbersToSpaces(){
-    char s[] = "";
-    char s_changed[1];
-    char exp[] = "";
-    numbersToSpaces(s, s_changed);
-    ASSERT_STRING(exp, s_changed);
-    char s1[] = "a1b2c";
-    char s1_changed[7];
-    char exp1[] = "a b  c";
-    numbersToSpaces(s1, s1_changed);
-    ASSERT_STRING(exp1, s1_changed);
-    char s2[] = "4";
-    char s2_changed[5];
-    char exp2[] = "    ";
-    numbersToSpaces(s2, s2_changed);
-    ASSERT_STRING(exp2, s2_changed);
-    char s3[] = "2test3";
-    char s3_changed[10];
-    char exp3[] = "  test   ";
-    numbersToSpaces(s3, s3_changed);
-    ASSERT_STRING(exp3, s3_changed);
+void test1_2(){
+    char file_name[] = "aboba";
+    int n = 3;
+    matrix m = createMatrixFromArray((int[]) {1, 0, 0,
+                                              0, 1, 0,
+                                              0, 0, 1}, 3, 3);
+
+    matrix m_res = createMatrixFromArray((int[]) {1, 0, 0,
+                                                  0, 1, 0,
+                                                  0, 0, 1}, 3, 3);
+
+    FILE* file = fopen(file_name, "w");
+
+    fprintf(file, "%d\n", n);
+
+    for (size_t i = 0; i < n; i++) {
+        for (size_t j = 0; j < n; j++)
+            fprintf(file, "%d ", m.values[i][j]);
+
+        fprintf(file, "\n");
+    }
+
+    fclose(file);
+
+    transposeMatrixFile(file_name);
+
+    int n_res;
+    matrix m_res_test = getMemMatrix(n, n);
+
+    file = fopen(file_name, "r");
+
+    fscanf(file, "%d\n", &n_res);
+
+    for (size_t i = 0; i < n; i++)
+        for (size_t j = 0; j < n; j++)
+            fscanf(file, "%d", &m_res_test.values[i][j]);
+
+    fclose(file);
+
+    assert(areTwoMatricesEqual(&m_res, &m_res_test));
+
+    freeMemMatrix(&m);
+    freeMemMatrix(&m_res_test);
+    freeMemMatrix(&m_res);
 }
 
-void test_replace(){
-    char str[] = "";
-    char w1[] = "";
-    char w2[] = "";
-    replace(str, w1, w2);
-    char exp[] = "";
-    ASSERT_STRING(exp, str);
-    char str1[] = "I'm fine";
-    char w1_1[] = "fine";
-    char w2_1[] = "tired";
-    replace(str1, w1_1, w2_1);
-    char exp1[] = "I'm tired";
-    ASSERT_STRING(exp1, str1);
-    char str2[] = "  That's a simple word, really simple   ";
-    char w1_2[] = "simple";
-    char w2_2[] = "hard";
-    replace(str2, w1_2, w2_2);
-    char exp2[] = "  That's a hard word, really hard   ";
-    ASSERT_STRING(exp2, str2);
+void test1_3(){
+    char file_name[] = "aboba";
+    int n = 3;
+    matrix m = createMatrixFromArray((int[]) {1, 2, 3,
+                                              4, 5, 6,
+                                              7, 8, 9}, 3, 3);
+
+    matrix m_res = createMatrixFromArray((int[]) {1, 4, 7,
+                                                  2, 5, 8,
+                                                  3, 6, 9}, 3, 3);
+
+    FILE* file = fopen(file_name, "w");
+
+    fprintf(file, "%d\n", n);
+
+    for (size_t i = 0; i < n; i++) {
+        for (size_t j = 0; j < n; j++)
+            fprintf(file, "%d ", m.values[i][j]);
+
+        fprintf(file, "\n");
+    }
+
+    fclose(file);
+
+    transposeMatrixFile(file_name);
+
+    int n_res;
+    matrix m_res_test = getMemMatrix(n, n);
+
+    file = fopen(file_name, "r");
+
+    fscanf(file, "%d\n", &n_res);
+
+    for (size_t i = 0; i < n; i++)
+        for (size_t j = 0; j < n; j++)
+            fscanf(file, "%d", &m_res_test.values[i][j]);
+
+    fclose(file);
+
+    assert(areTwoMatricesEqual(&m_res, &m_res_test));
+
+    freeMemMatrix(&m);
+    freeMemMatrix(&m_res_test);
+    freeMemMatrix(&m_res);
 }
 
-void test_areByAlphabet(){
-    char str[] = "aa ab ac";
-    assert(areByAlphabet(str) == 1);
-    char str1[] = "";
-    assert(areByAlphabet(str1) == 1);
-    char str2[] = "That's not by alphabet";
-    assert(areByAlphabet(str2) == 0);
-}
 
-void test_isPalindrome(){
-    char *str = "racecar";
-    WordDescriptor word;
-    getWord(str, &word);
-    assert(isPalindrome(word) == 1);
-    char *str1 = "racecars";
-    WordDescriptor word1;
-    getWord(str1, &word1);
-    assert(!isPalindrome(word1));
-}
-
-void test_countPalindromes(){
-    char s[] = "";
-    assert(countPalindromes(s) == 0);
-    char s1[] = "aaa bb ab";
-    assert(countPalindromes(s1) == 2);
-}
-
-void test_combinedString(){
-    char s1[] = "";
-    char s2[] = "";
-    char res[0];
-    char exp[] = "";
-    combinedSting(s1,s2,res);
-    ASSERT_STRING(res, exp);
-    char s1_1[] = "this work like";
-    char s2_1[] = "laboratory feels eternity";
-    char res_1[strlen_(s1_1) + strlen_(s2_1)];
-    char exp_1[] = "this laboratory work feels like eternity";
-    combinedSting(s1_1,s2_1,res_1);
-    ASSERT_STRING(res_1, exp_1);
-    char s1_2[] = "just";
-    char s2_2[] = "another test";
-    char res_2[strlen_(s1_2) + strlen_(s2_2)];
-    char exp_2[] = "just another test";
-    combinedSting(s1_2,s2_2,res_2);
-    ASSERT_STRING(res_2, exp_2);
-}
-
-void testAll_getWordBeforeFirstWordWithA() {
-    WordDescriptor word;
-    char s1[] = "";
-    assert(
-            getWordBeforeFirstWordWithA(s1, &word)
-            == EMPTY_STRING
-    );
-    char s2[] = "ABC";
-    assert(
-            getWordBeforeFirstWordWithA(s2, &word)
-            == FIRST_WORD_WITH_A
-    );
-    char s3[] = "BC A";
-    assert(
-            getWordBeforeFirstWordWithA(s3, &word)
-            == WORD_FOUND
-    );
-    char got[MAX_WORD_SIZE];
-    copy(word.begin, word.end, got);
-    got[word.end - word.begin] = '\0';
-    ASSERT_STRING("BC", got);
-    char s4[] = "B Q WE YR OW IUWR";
-    assert(getWordBeforeFirstWordWithA(s4, &word) == NOT_FOUND_A_WORD_WITH_A);
-}
-
-void test_lastWordFromFirst(){
-    char str1[] = "aaa bbb ccc";
-    char str2[] = "dff bbb aas aaa";
-    WordDescriptor word = lastWordFromFirst(str1, str2);
-    char str_exp[4];
-    wordDescriptorToString(word, &str_exp);
-    char exp[] = "bbb";
-    ASSERT_STRING(exp, str_exp);
-    char str1_1[] = "";
-    char str2_1[] = "";
-    WordDescriptor word_1 = lastWordFromFirst(str1_1, str2_1);
-    assert(word_1.end == NULL && word_1.begin == NULL);
-}
-
-void test_areEqualWordInString(){
-    char str[] = "";
-    assert(areEqualWordInString(str) == 0);
-    char str1[] = "This work is hard really hard to be honest";
-    assert(areEqualWordInString(str1) == 1);
-    char str2[] = "This work is just hard";
-    assert(areEqualWordInString(str2) == 0);
-    char str3[] = "  hard    hard        hard   ";
-    assert(areEqualWordInString(str3) == 1);
-}
-
-void test_areWordsSameLetters(){
-    char str[] = "";
-    assert(areWordsSameLetters(str) == 0);
-    char str1[] = "I deem i need a meed the best of all";
-    assert(areWordsSameLetters(str1) == 1);
-    char str2[] = "there are no similar words";
-    assert(areWordsSameLetters(str2) == 0);
-}
-
-void test_deleteSameAsLast(){
-    char str[] = "";
-    char exp[] = "";
-    deleteSameAsLast(str);
-    ASSERT_STRING(exp, str);
-    char str1[] = "It's the last word - WORD ; Joking that's the last word - the ";
-    char exp1[] = "It's last word - WORD ; Joking that's last word - the ";
-    deleteSameAsLast(str1);
-    ASSERT_STRING(exp1, str1);
-}
-
-void test_firstWordFromFirst(){
-    char str1[] = "aaa bbb ccc ";
-    char str2[] = "dff bbb aas aad ";
-    WordDescriptor word = firstWordFromFirst(str1, str2);
-    char str_exp[4];
-    wordDescriptorToString(word, &str_exp);
-    char exp[] = "aaa";
-    ASSERT_STRING(exp, str_exp);
-    char str1_1[] = "";
-    char str2_1[] = "";
-    WordDescriptor word_1 = firstWordFromFirst(str1_1, str2_1);
-    assert(word_1.end == NULL && word_1.begin == NULL);
-}
-
-void test_deletePalindromes(){
-    char s[] = "";
-    deletePalindromes(s);
-    char exp_res[] = "";
-    ASSERT_STRING(exp_res, s);
-    char s1[] = "word aboba word lol word";
-    deletePalindromes(s1);
-    char exp_res1[] = "word word word";
-    ASSERT_STRING(exp_res1, s1);
-}
-
-void test_addToSmallerString(){
-    char s1[30] = "";
-    char s2[30] = "";
-    addToSmallerString(s1, s2);
-    char* exp = "";
-    ASSERT_STRING(exp, s2);
-    char s1_1[30] = "a bb ccc dddd eee ff g";
-    char s2_1[30] = "1 22 333";
-    addToSmallerString(s1_1, s2_1);
-    char* exp_1 = "1 22 333 dddd eee ff g";
-    ASSERT_STRING(exp_1, s2_1);
-    char s1_2[30] = "a bb ccc";
-    char s2_2[30] = "1 22 333 4444 555 66 7";
-    addToSmallerString(s1_2, s2_2);
-    char* exp_2 = "a bb ccc 4444 555 66 7";
-    ASSERT_STRING(exp_2, s1_2);
-}
-
-void test_isEveryLetterInString(){
-    char str[] = "";
-    char word[] = "";
-    assert(isEveryLetterInString(str, word));
-    char str1[] = "there is every letter from the word below";
-    char word1[] = "forest";
-    assert(isEveryLetterInString(str1, word1));
-    char str2[] = "this string lacks some letters";
-    char word2[] = "refrigerator";
-    assert(!isEveryLetterInString(str2, word2));
+void test1(){
+    test1_1();
+    test1_2();
+    test1_3();
 }
 
 void test(){
-    test_removeExtraSpaces();
-    test_digitsToEndWordInSentence();
-    test_numbersToSpaces();
-    test_replace();
-    test_areByAlphabet();
-    test_isPalindrome();
-    test_countPalindromes();
-    test_combinedString();
-    testAll_getWordBeforeFirstWordWithA();
-    test_lastWordFromFirst();
-    test_areEqualWordInString();
-    test_areWordsSameLetters();
-    test_deleteSameAsLast();
-    test_firstWordFromFirst();
-    test_deletePalindromes();
-    test_addToSmallerString();
-    test_isEveryLetterInString();
+    test1();
 }
 
 int main() {
