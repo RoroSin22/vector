@@ -4,7 +4,7 @@
 #include <assert.h>
 #include <time.h>
 #include "libs/vectorVoid.h"
-
+#define NUMBER_CONST 48
 
 bool fequal(float a, float b){
     return fabs(a-b) < DBL_EPSILON;
@@ -240,9 +240,163 @@ void test_convert_float(){
     deleteVectorV(&v_exp);
 }
 
+//3
+int doMath(int number1, char operation, int number2){
+    switch (operation){
+        case '+':
+            return number1 + number2;
+        case '-':
+            return number1 - number2;
+        case '*':
+            return number1 * number2;
+        case '/':
+            if (number2 == 0) {
+                fprintf(stderr, "dividing on zero");
+                exit(1);
+            }
+            return number1 / number2;
+    }
+
+    fprintf(stderr, "there is no operation");
+}
+
+void solveMathProblem(const char* file_name){
+    FILE* file = fopen(file_name, "r");
+
+    char symbols_in_file[6];
+    int result;
+    int i = 0;
+    for (; i <= 5 && !feof(file); i++)
+        fscanf(file, "%c", &symbols_in_file[i]);
+
+    fclose(file);
+
+    symbols_in_file[i - 1] = '\0';
+
+    int number1 = symbols_in_file[0] - NUMBER_CONST;
+    int number2 = symbols_in_file[2] - NUMBER_CONST;
+
+    if (symbols_in_file[3] == '\0'){
+        result = doMath(number1, symbols_in_file[1], number2);
+    }else{
+        int number3 = symbols_in_file[4] - NUMBER_CONST;
+
+        if ((symbols_in_file[1] != '*' && symbols_in_file[1] != '/') && (symbols_in_file[3] == '*' || symbols_in_file[3] == '/')){
+            result = doMath(number2, symbols_in_file[3], number3);
+            result = doMath(number1, symbols_in_file[1], result);
+        }else{
+            result = doMath(number1, symbols_in_file[1], number2);
+            result = doMath(result, symbols_in_file[3], number3);
+        }
+    }
+
+    file = fopen(file_name, "a+");
+
+    fprintf(file, "%c", '=');
+    if (result > 9){
+        fprintf(file, "%c", result / 10 + NUMBER_CONST);
+        fprintf(file, "%c", result % 10 + NUMBER_CONST);
+    } else if (result < 0){
+        if(result < -9) {
+            fprintf(file, "%c", '-');
+            fprintf(file, "%c", -1 * result / 10 + NUMBER_CONST);
+            fprintf(file, "%c", -1 * result % 10 + NUMBER_CONST);
+        }else{
+            fprintf(file, "%c", '-');
+            fprintf(file, "%c", -1 * result + NUMBER_CONST);
+        }
+    }else
+        fprintf(file, "%c", result + NUMBER_CONST);
+
+    fclose(file);
+}
+
+void test3_1(){
+    FILE* file = fopen("aboba", "w");
+    fprintf(file, "5+4");
+    fclose(file);
+    solveMathProblem("aboba");
+
+    file = fopen("aboba", "r");
+    char result[10];
+    fscanf(file, "%s\n", &result);
+    fclose(file);
+
+    char exp_result[] = "5+4=9";
+    assert(strcmp(result, exp_result) == 0);
+}
+
+void test3_2(){
+    FILE* file = fopen("aboba", "w");
+    fprintf(file, "9-4*2");
+    fclose(file);
+    solveMathProblem("aboba");
+
+    file = fopen("aboba", "r");
+    char result[10];
+    fscanf(file, "%s\n", &result);
+    fclose(file);
+
+    char exp_result[] = "9-4*2=1";
+    assert(strcmp(result, exp_result) == 0);
+}
+
+void test3_3(){
+    FILE* file = fopen("aboba", "w");
+    fprintf(file, "8*9");
+    fclose(file);
+    solveMathProblem("aboba");
+
+    file = fopen("aboba", "r");
+    char result[10];
+    fscanf(file, "%s\n", &result);
+    fclose(file);
+
+    char exp_result[] = "8*9=72";
+    assert(strcmp(result, exp_result) == 0);
+}
+
+void test3_4(){
+    FILE* file = fopen("aboba", "w");
+    fprintf(file, "8/2-5");
+    fclose(file);
+    solveMathProblem("aboba");
+
+    file = fopen("aboba", "r");
+    char result[10];
+    fscanf(file, "%s\n", &result);
+    fclose(file);
+
+    char exp_result[] = "8/2-5=-1";
+    assert(strcmp(result, exp_result) == 0);
+}
+
+void test3_5(){
+    FILE* file = fopen("aboba", "w");
+    fprintf(file, "6*4/8");
+    fclose(file);
+    solveMathProblem("aboba");
+
+    file = fopen("aboba", "r");
+    char result[10];
+    fscanf(file, "%s\n", &result);
+    fclose(file);
+
+    char exp_result[] = "6*4/8=3";
+    assert(strcmp(result, exp_result) == 0);
+}
+
+void test3(){
+    test3_1();
+    test3_2();
+    test3_3();
+    test3_4();
+    test3_5();
+}
 void test(){
     test1();
     test_convert_float();
+    test3();
 }
 
 int main() {
