@@ -40,7 +40,6 @@ typedef struct BagOfWords {
 BagOfWords _bag;
 BagOfWords _bag2;
 
-
 size_t strlen_(const char *begin) {
     char *end = begin;
     while (*end != '\0')

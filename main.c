@@ -4,6 +4,7 @@
 #include <assert.h>
 #include <time.h>
 #include "libs/vectorVoid.h"
+#include "libs/string_.h"
 #define NUMBER_CONST 48
 
 bool fequal(float a, float b){
@@ -393,14 +394,101 @@ void test3(){
     test3_4();
     test3_5();
 }
+
+//4
+void deleteNonSequenceWords(char* str, const char* sequence){
+    copy(str, getEndOfString(str), _stringBuffer);
+    getBagOfWords(&_bag, str);
+    char* current = str;
+    char word[MAX_WORD_SIZE];
+
+    for (int i = 0; i < _bag.size ; i++){
+        wordDescriptorToString(_bag.words[i], &word);
+
+        if (strstr(word, sequence) != NULL){
+            copy(_bag.words[i].begin, _bag.words[i].end + 1, current);
+            current += _bag.words[i].end - _bag.words[i].begin + 1;
+        }
+
+    }
+    *current = '\0';
+    current++;
+    *current = '\n';
+}
+
+void deleteNonSequenceWordsFile(const char* file_name, const char* sequence){
+    FILE* file = fopen(file_name, "r");
+    char str[MAX_STRING_SIZE];
+    fscanf(file, "%[^\n]", &str);
+    fclose(file);
+
+    deleteNonSequenceWords(str, sequence);
+
+    file = fopen(file_name, "w");
+    fprintf(file, "%s\n", str);
+    fclose(file);
+}
+
+void test4_1() {
+    const char file_name[] = "aboba";
+    char str[] = "Good Lord";
+    FILE* file = fopen(file_name, "w");
+    fprintf(file, &str);
+    fclose(file);
+    deleteNonSequenceWordsFile(file_name, "Lord");
+    file = fopen(file_name, "r");
+    char res[MAX_STRING_SIZE];
+    fscanf(file, "%[^\n]", res);
+    fclose(file);
+    char exp_res[] = "Good";
+    assert(strcmp(res, exp_res));
+}
+
+void test4_2() {
+    const char file_name[] = "aboba";
+    char str[] = "there are sevarale words are";
+    FILE* file = fopen(file_name, "w");
+    fprintf(file, str);
+    fclose(file);
+    deleteNonSequenceWordsFile(file_name, "are");
+    file = fopen(file_name, "r");
+    char res[MAX_STRING_SIZE];
+    fscanf(file, "%[^\n]", res);
+    fclose(file);
+    char exp_res[] = "are sevarale are";
+    assert(strcmp(res, exp_res));
+}
+
+void test4_3() {
+    const char file_name[] = "aboba";
+    char str[] = "there is no parts of sequence";
+    FILE* file = fopen(file_name, "w");
+    fprintf(file, str);
+    fclose(file);
+    deleteNonSequenceWordsFile(file_name, "word");
+    file = fopen(file_name, "r");
+    char res[MAX_STRING_SIZE];
+    fscanf(file, "%[^\n]", res);
+    fclose(file);
+    char exp_res[] = "there is no parts of sequence";
+    assert(strcmp(res, exp_res));
+}
+
+void test4(){
+    test4_1();
+    test4_2();
+    test4_3();
+}
+
+//test
 void test(){
     test1();
     test_convert_float();
     test3();
+    test4();
 }
 
 int main() {
     test();
-
     return 0;
 }
