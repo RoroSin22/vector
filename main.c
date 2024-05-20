@@ -723,6 +723,64 @@ void test7(){
     test7_3();
 }
 
+//8
+void transposeNonSymmetricMatrices(const char* file_name, const int n, const int matrix_amount){
+    FILE* file = fopen(file_name, "rb");
+    matrix* matrix_array = getMemArrayOfMatrices(matrix_amount, n, n);
+
+    for (int i = 0; i  < matrix_amount; i++){
+        for (int row = 0; row < n; row++){
+            for (int col = 0; col < n; col++)
+                fread(&matrix_array[i].values[row][col], sizeof(int), 1, file);
+        }
+
+        if(!isSymmetricMatrix(&matrix_array[i]))
+            transposeMatrix(&matrix_array[i]);
+    }
+
+    fclose(file);
+    file = fopen(file_name, "wb");
+
+    for (int i = 0; i  < matrix_amount; i++){
+        for (int row = 0; row < n; row++){
+            for (int col = 0; col < n; col++)
+                fwrite(&matrix_array[i].values[row][col], sizeof(int), 1, file);
+        }
+
+    }
+    fclose(file);
+}
+
+void test8(){
+    FILE* file = fopen("aboba", "wb");
+    int v[] = {1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 1, 1, 0, 1, 1, 1, 0};
+    matrix* ms = createArrayOfMatrixFromArray(v,3, 3, 3);
+    for (int i = 0; i  < 3; i++){
+        for (int row = 0; row < 3; row++){
+            for (int col = 0; col < 3; col++)
+                fwrite(&ms[i].values[row][col], sizeof(int), 1,  file);
+        }
+
+    }
+
+    fclose(file);
+
+    transposeNonSymmetricMatrices("aboba", 3, 3);
+
+    int exp[] = {1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 4, 7, 2, 5, 8, 3, 6, 9, 0, 1, 1, 1, 0, 1, 1, 1, 0};
+    matrix* ms_exp = createArrayOfMatrixFromArray(exp,3, 3, 3);
+    file = fopen("aboba", "rb");
+    for (int i = 0; i  < 3; i++){
+        for (int row = 0; row < 3; row++){
+            for (int col = 0; col < 3; col++){
+                int num;
+                fread(&num, sizeof(int), 1, file);
+                assert(num == ms_exp[i].values[row][col]);
+            }
+        }
+    }
+}
+
 //test
 void test(){
     test1();
@@ -731,6 +789,7 @@ void test(){
     test4();
     test5();
     test7();
+    test8();
 }
 
 int main() {
