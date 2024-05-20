@@ -3,13 +3,18 @@
 #include "libs/matrix.h"
 #include <assert.h>
 #include <time.h>
+#include <math.h>
 #include "libs/vectorVoid.h"
+#include "libs/vector.h"
 #include "libs/string_.h"
 #define NUMBER_CONST 48
+#define MAX_LINES 20
 
 bool fequal(float a, float b){
     return fabs(a-b) < DBL_EPSILON;
 }
+
+
 
 //1
 
@@ -572,6 +577,152 @@ void test5(){
     test5_2();
 }
 
+//6
+/*
+typedef struct {
+    int power;
+    int coefficient;
+}polynomial;
+
+polynomial* getMemArrayPolynomial(int nPolynomial){
+    polynomial *ps = (polynomial *) malloc(sizeof(polynomial) * nPolynomial);
+    return ps;
+}
+
+bool isRoot(polynomial* ps, int x){
+    int res = 0;
+    int position = 0;
+    while (ps[position].power != 0){
+        res += ps[position].coefficient * (int) round(pow(x, ps[position].power));
+        position++;
+    }
+    res += ps[position].coefficient;
+    return res == 0;
+}
+
+void task6(const char* file_name, int x){
+    FILE* file = fopen(file_name, "rb");
+    FILE* temporary = fopen("temp", "w+b");
+
+    while (!feof(file)) {
+        int element_amount;
+        fread(&element_amount, sizeof(int), 1, file);
+        polynomial* ps = getMemArrayPolynomial(element_amount);
+
+        fread(ps, sizeof(polynomial), element_amount, file);
+
+        if (isRoot(ps, x))
+            fwrite(ps, sizeof(polynomial), element_amount, temporary);
+    }
+
+    fclose(file);
+    fclose(temporary);
+
+    file = fopen(file_name, "wb");
+    temporary = fopen("temp", "rb");
+    int c;
+    while ((c = fgetc(temporary)) != EOF)
+        fputc(c, file);
+
+    fclose(file);
+    fclose(temporary);
+} */
+
+//7
+void negativeToEndFile(const char* file_name) {
+    FILE* file = fopen(file_name, "rb");
+    vector positive_num = createVector(3);
+    vector negative_num = createVector(3);
+
+
+    int corrective_num;
+    while (fread(&corrective_num, sizeof(int), 1, file) == 1) {
+        if (corrective_num >= 0)
+            pushBack(&positive_num, corrective_num);
+        else
+            pushBack(&negative_num, corrective_num);
+    }
+
+    fclose(file);
+    file = fopen(file_name, "wb");
+    if (file == NULL) {
+        printf("reading error\n");
+        exit(1);
+    }
+    for (int i = 0; i < positive_num.size; i++)
+        fwrite(positive_num.data + i, sizeof(int), 1, file);
+    for (int i = 0; i < negative_num.size; i++)
+        fwrite(negative_num.data + i, sizeof(int), 1, file);
+    deleteVector(&positive_num);
+    deleteVector(&negative_num);
+    fclose(file);
+}
+
+void test7_1(){
+    const char filename[] = "aboba";
+    int num[4] = {2, 4, -1, -8};
+    FILE* file = fopen(filename, "wb");
+    for (int i = 0; i < 4; i++)
+        fwrite(&num[i], sizeof(int), 1, file);
+
+    fclose(file);
+    negativeToEndFile(filename);
+    file = fopen(filename, "rb");
+    int exp[4];
+    for (int i = 0; i < 4; i++)
+        fread(&exp[i], sizeof(int), 1, file);
+
+    fclose(file);
+    for (int i = 0; i < 4; i++)
+        assert(num[i] == exp[i]);
+}
+
+void test7_2(){
+    const char filename[] = "aboba";
+    int num[6] = {2, -4, 1, -8, 7, 9};
+    FILE* file = fopen(filename, "wb");
+    for (int i = 0; i < 6; i++)
+        fwrite(&num[i], sizeof(int), 1, file);
+
+    fclose(file);
+    negativeToEndFile(filename);
+    file = fopen(filename, "rb");
+    int res[6];
+    int exp[6] = {2, 1, 7, 9, -4, -8};
+    for (int i = 0; i < 6; i++) {
+        fread(&res[i], sizeof(int), 1, file);
+        assert(res[i] == exp[i]);
+    }
+
+    fclose(file);
+}
+
+void test7_3(){
+    const char filename[] = "aboba";
+    int num[6] = {-2, -4, -1, 8, 7, 9};
+    FILE* file = fopen(filename, "wb");
+    for (int i = 0; i < 6; i++)
+        fwrite(&num[i], sizeof(int), 1, file);
+
+    fclose(file);
+    negativeToEndFile(filename);
+    file = fopen(filename, "rb");
+    int res[6];
+    int exp[6] = {8, 7, 9, -2, -4, -1};
+    for (int i = 0; i < 6; i++) {
+        fread(&res[i], sizeof(int), 1, file);
+        assert(res[i] == exp[i]);
+    }
+
+    fclose(file);
+}
+
+void test7(){
+    test7_1();
+    test7_2();
+    test7_3();
+}
+
 //test
 void test(){
     test1();
@@ -579,6 +730,7 @@ void test(){
     test3();
     test4();
     test5();
+    test7();
 }
 
 int main() {
