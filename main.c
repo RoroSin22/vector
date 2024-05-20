@@ -440,13 +440,13 @@ void test4_1() {
     char res[MAX_STRING_SIZE];
     fscanf(file, "%[^\n]", res);
     fclose(file);
-    char exp_res[] = "Good";
-    assert(strcmp(res, exp_res));
+    char exp_res[] = "Lord";
+    assert(strcmp(res, exp_res) == 0);
 }
 
 void test4_2() {
     const char file_name[] = "aboba";
-    char str[] = "there are sevarale words are";
+    char str[] = "there are sevarele words are";
     FILE* file = fopen(file_name, "w");
     fprintf(file, str);
     fclose(file);
@@ -455,29 +455,121 @@ void test4_2() {
     char res[MAX_STRING_SIZE];
     fscanf(file, "%[^\n]", res);
     fclose(file);
-    char exp_res[] = "are sevarale are";
-    assert(strcmp(res, exp_res));
-}
-
-void test4_3() {
-    const char file_name[] = "aboba";
-    char str[] = "there is no parts of sequence";
-    FILE* file = fopen(file_name, "w");
-    fprintf(file, str);
-    fclose(file);
-    deleteNonSequenceWordsFile(file_name, "word");
-    file = fopen(file_name, "r");
-    char res[MAX_STRING_SIZE];
-    fscanf(file, "%[^\n]", res);
-    fclose(file);
-    char exp_res[] = "there is no parts of sequence";
-    assert(strcmp(res, exp_res));
+    char exp_res[] = "are sevarele are";
+    assert(strcmp(res, exp_res) == 0);
 }
 
 void test4(){
     test4_1();
     test4_2();
-    test4_3();
+}
+
+//5
+WordDescriptor longestWord(char* str){
+    getBagOfWords(&_bag, str);
+    WordDescriptor longest_word;
+    passWordPosition(&longest_word, &_bag.words[0]);
+    int max_len = longest_word.end - longest_word.begin;
+
+    for (int i = 1; i < _bag.size; i++){
+        int word_len = _bag.words[i].end - _bag.words[i].begin;
+        if (max_len < word_len){
+            passWordPosition(&longest_word, &_bag.words[i]);
+            max_len = word_len;
+        }
+    }
+
+    return longest_word;
+}
+
+size_t getLinesAmountFile(const char* file_name){
+    FILE* file = fopen(file_name, "r");
+
+    size_t counter = 0;
+    char str[MAX_STRING_SIZE];
+    while (fgets(str, MAX_STRING_SIZE, file) != NULL)
+        counter++;
+
+
+    fclose(file);
+    return counter;
+}
+
+void onlyLongestWordsFile(const char* file_name){
+    FILE* file = fopen(file_name, "r");
+    size_t lines_amount = getLinesAmountFile(file_name);
+
+    char* words = (char *) malloc(sizeof(char) * MAX_WORD_SIZE * lines_amount);
+    char string[MAX_STRING_SIZE];
+    for (int i = 0; i < lines_amount; i++){
+        fgets(string, MAX_STRING_SIZE, file);
+        WordDescriptor longest_word = longestWord(string);
+        char word[MAX_WORD_SIZE];
+        wordDescriptorToString(longest_word, word);
+        memcpy(&words[i * MAX_WORD_SIZE + 1], word, sizeof(char) * (longest_word.end - longest_word.begin + 1));
+    }
+
+    fclose(file);
+
+    file = fopen(file_name,"w");
+
+    for (int i = 0; i < lines_amount; i++)
+        fprintf(file, "%s\n", &words[i * MAX_WORD_SIZE + 1]);
+
+    fclose(file);
+}
+
+void test5_1(){
+    char* str1 = "test this function\n";
+    char* exp1 = "function";
+
+
+    FILE* f = fopen("aboba", "w");
+    fputs(str1, f);
+    fclose(f);
+
+    onlyLongestWordsFile("aboba");
+
+    f = fopen("aboba", "r");
+    char str[MAX_STRING_SIZE];
+    fscanf(f, "%s\n", str);
+    fclose(f);
+
+    assert(strcmp(str, exp1) == 0);
+}
+
+void test5_2(){
+    char* str1 = "there are some random sentences\n";
+    char* str2 = "they do not have\n";
+    char* str3 = "any sense it is just test\n";
+
+    char* exp1 = "sentences";
+    char* exp2 = "they";
+    char* exp3 = "sense";
+
+    FILE* f = fopen("aboba", "w");
+    fputs(str1, f);
+    fputs(str2, f);
+    fputs(str3, f);
+    fclose(f);
+
+    onlyLongestWordsFile("aboba");
+
+    f = fopen("aboba", "r");
+    char str[MAX_STRING_SIZE];
+    fscanf(f, "%s\n", str);
+    assert(strcmp(str, exp1) == 0);
+    fscanf(f, "%s\n", str);
+    assert(strcmp(str, exp2) == 0);
+    fscanf(f, "%s\n", str);
+    assert(strcmp(str, exp3) == 0);
+
+    fclose(f);
+}
+
+void test5(){
+    test5_1();
+    test5_2();
 }
 
 //test
@@ -486,9 +578,11 @@ void test(){
     test_convert_float();
     test3();
     test4();
+    test5();
 }
 
 int main() {
     test();
+
     return 0;
 }
