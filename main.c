@@ -14,8 +14,6 @@ bool fequal(float a, float b){
     return fabs(a-b) < DBL_EPSILON;
 }
 
-
-
 //1
 
 void transposeMatrixFile(const char* file_name){
@@ -51,7 +49,7 @@ void transposeMatrixFile(const char* file_name){
 }
 
 void test1_1(){
-    char file_name[] = "aboba";
+    char file_name[] = "test_file";
     int n = 1;
     int element = 10;
 
@@ -76,7 +74,7 @@ void test1_1(){
 }
 
 void test1_2(){
-    char file_name[] = "aboba";
+    char file_name[] = "test_file";
     int n = 3;
     matrix m = createMatrixFromArray((int[]) {1, 0, 0,
                                               0, 1, 0,
@@ -122,7 +120,7 @@ void test1_2(){
 }
 
 void test1_3(){
-    char file_name[] = "aboba";
+    char file_name[] = "test_file";
     int n = 3;
     matrix m = createMatrixFromArray((int[]) {1, 2, 3,
                                               4, 5, 6,
@@ -200,7 +198,7 @@ void convert_float(const char* file_name) {
 }
 
 void test_convert_float(){
-    const char file_name[] = "aboba";
+    const char file_name[] = "test_file";
 
     vectorVoid v = createVectorV(3, sizeof(float));
     float number1 = 7.143423;
@@ -318,12 +316,12 @@ void solveMathProblem(const char* file_name){
 }
 
 void test3_1(){
-    FILE* file = fopen("aboba", "w");
+    FILE* file = fopen("test_file", "w");
     fprintf(file, "5+4");
     fclose(file);
-    solveMathProblem("aboba");
+    solveMathProblem("test_file");
 
-    file = fopen("aboba", "r");
+    file = fopen("test_file", "r");
     char result[10];
     fscanf(file, "%s\n", &result);
     fclose(file);
@@ -333,12 +331,12 @@ void test3_1(){
 }
 
 void test3_2(){
-    FILE* file = fopen("aboba", "w");
+    FILE* file = fopen("test_file", "w");
     fprintf(file, "9-4*2");
     fclose(file);
-    solveMathProblem("aboba");
+    solveMathProblem("test_file");
 
-    file = fopen("aboba", "r");
+    file = fopen("test_file", "r");
     char result[10];
     fscanf(file, "%s\n", &result);
     fclose(file);
@@ -348,12 +346,12 @@ void test3_2(){
 }
 
 void test3_3(){
-    FILE* file = fopen("aboba", "w");
+    FILE* file = fopen("test_file", "w");
     fprintf(file, "8*9");
     fclose(file);
-    solveMathProblem("aboba");
+    solveMathProblem("test_file");
 
-    file = fopen("aboba", "r");
+    file = fopen("test_file", "r");
     char result[10];
     fscanf(file, "%s\n", &result);
     fclose(file);
@@ -363,12 +361,12 @@ void test3_3(){
 }
 
 void test3_4(){
-    FILE* file = fopen("aboba", "w");
+    FILE* file = fopen("test_file", "w");
     fprintf(file, "8/2-5");
     fclose(file);
-    solveMathProblem("aboba");
+    solveMathProblem("test_file");
 
-    file = fopen("aboba", "r");
+    file = fopen("test_file", "r");
     char result[10];
     fscanf(file, "%s\n", &result);
     fclose(file);
@@ -378,12 +376,12 @@ void test3_4(){
 }
 
 void test3_5(){
-    FILE* file = fopen("aboba", "w");
+    FILE* file = fopen("test_file", "w");
     fprintf(file, "6*4/8");
     fclose(file);
-    solveMathProblem("aboba");
+    solveMathProblem("test_file");
 
-    file = fopen("aboba", "r");
+    file = fopen("test_file", "r");
     char result[10];
     fscanf(file, "%s\n", &result);
     fclose(file);
@@ -435,7 +433,7 @@ void deleteNonSequenceWordsFile(const char* file_name, const char* sequence){
 }
 
 void test4_1() {
-    const char file_name[] = "aboba";
+    const char file_name[] = "test_file";
     char str[] = "Good Lord";
     FILE* file = fopen(file_name, "w");
     fprintf(file, &str);
@@ -450,7 +448,7 @@ void test4_1() {
 }
 
 void test4_2() {
-    const char file_name[] = "aboba";
+    const char file_name[] = "test_file";
     char str[] = "there are sevarele words are";
     FILE* file = fopen(file_name, "w");
     fprintf(file, str);
@@ -529,13 +527,13 @@ void test5_1(){
     char* exp1 = "function";
 
 
-    FILE* f = fopen("aboba", "w");
+    FILE* f = fopen("test_file", "w");
     fputs(str1, f);
     fclose(f);
 
-    onlyLongestWordsFile("aboba");
+    onlyLongestWordsFile("test_file");
 
-    f = fopen("aboba", "r");
+    f = fopen("test_file", "r");
     char str[MAX_STRING_SIZE];
     fscanf(f, "%s\n", str);
     fclose(f);
@@ -552,15 +550,15 @@ void test5_2(){
     char* exp2 = "they";
     char* exp3 = "sense";
 
-    FILE* f = fopen("aboba", "w");
+    FILE* f = fopen("test_file", "w");
     fputs(str1, f);
     fputs(str2, f);
     fputs(str3, f);
     fclose(f);
 
-    onlyLongestWordsFile("aboba");
+    onlyLongestWordsFile("test_file");
 
-    f = fopen("aboba", "r");
+    f = fopen("test_file", "r");
     char str[MAX_STRING_SIZE];
     fscanf(f, "%s\n", str);
     assert(strcmp(str, exp1) == 0);
@@ -656,7 +654,7 @@ void negativeToEndFile(const char* file_name) {
 }
 
 void test7_1(){
-    const char filename[] = "aboba";
+    const char filename[] = "test_file";
     int num[4] = {2, 4, -1, -8};
     FILE* file = fopen(filename, "wb");
     for (int i = 0; i < 4; i++)
@@ -675,7 +673,7 @@ void test7_1(){
 }
 
 void test7_2(){
-    const char filename[] = "aboba";
+    const char filename[] = "test_file";
     int num[6] = {2, -4, 1, -8, 7, 9};
     FILE* file = fopen(filename, "wb");
     for (int i = 0; i < 6; i++)
@@ -695,7 +693,7 @@ void test7_2(){
 }
 
 void test7_3(){
-    const char filename[] = "aboba";
+    const char filename[] = "test_file";
     int num[6] = {-2, -4, -1, 8, 7, 9};
     FILE* file = fopen(filename, "wb");
     for (int i = 0; i < 6; i++)
@@ -749,7 +747,7 @@ void transposeNonSymmetricMatrices(const char* file_name, const int n, const int
 }
 
 void test8(){
-    FILE* file = fopen("aboba", "wb");
+    FILE* file = fopen("test_file", "wb");
     int v[] = {1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 1, 1, 0, 1, 1, 1, 0};
     matrix* ms = createArrayOfMatrixFromArray(v,3, 3, 3);
     for (int i = 0; i  < 3; i++){
@@ -762,11 +760,11 @@ void test8(){
 
     fclose(file);
 
-    transposeNonSymmetricMatrices("aboba", 3, 3);
+    transposeNonSymmetricMatrices("test_file", 3, 3);
 
     int exp[] = {1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 4, 7, 2, 5, 8, 3, 6, 9, 0, 1, 1, 1, 0, 1, 1, 1, 0};
     matrix* ms_exp = createArrayOfMatrixFromArray(exp,3, 3, 3);
-    file = fopen("aboba", "rb");
+    file = fopen("test_file", "rb");
     for (int i = 0; i  < 3; i++){
         for (int row = 0; row < 3; row++){
             for (int col = 0; col < 3; col++){
@@ -820,7 +818,7 @@ void makeTeamFile(const char* filename, const int number_in_team){
 }
 
 void test9(){
-    const char file_name[] = "aboba";
+    const char file_name[] = "test_file";
     FILE* file = fopen(file_name, "wb");
 
     sportsman s1 = {.score = 24, .initials = "Casca"};
@@ -925,8 +923,8 @@ void updateStorageFile(const char* file_storage_name, const char* file_order_nam
 
 void test10(){
 
-    const char file_name[] = "aboba";
-    const char file_name2[] = "notaboba";
+    const char file_name[] = "test_file";
+    const char file_name2[] = "another_test_file";
     FILE* file = fopen(file_name, "wb");
     FILE* file2 = fopen(file_name2, "wb");
 
