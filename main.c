@@ -645,10 +645,7 @@ void negativeToEndFile(const char* file_name) {
 
     fclose(file);
     file = fopen(file_name, "wb");
-    if (file == NULL) {
-        printf("reading error\n");
-        exit(1);
-    }
+
     for (int i = 0; i < positive_num.size; i++)
         fwrite(positive_num.data + i, sizeof(int), 1, file);
     for (int i = 0; i < negative_num.size; i++)
@@ -862,6 +859,111 @@ void test9(){
     assert(strcmp(s6.initials, answer3.initials) == 0 && s6.score == answer3.score);
 }
 
+//10
+typedef struct {
+    char *name;
+    int price_per_one;
+    int total_prise;
+    int products_amount;
+} product;
+
+typedef struct {
+    char *name_order;
+    int products_in_order;
+} order;
+
+void updateStorage(product* products, order* orders, int products_amount, int orders_amount){
+    for(int i = 0; i < orders_amount; i++){
+        for(int j = 0; j < products_amount; j++){
+            if (strcmp(orders[i].name_order, products[j].name) == 0){
+                products[j].products_amount -= orders[i].products_in_order;
+                products[j].total_prise -= orders[i].products_in_order * products[j].price_per_one;
+                break;
+            }
+        }
+    }
+
+}
+
+void updateStorageFile(const char* file_storage_name, const char* file_order_name){
+    FILE* file_storage = fopen(file_storage_name, "rb");
+    FILE* file_order = fopen(file_order_name, "rb");
+
+    product* storage = (product *) malloc(10 * sizeof(product));
+    product* current_storage = storage;
+
+    int products_in_storage = 0;
+    while (fread(current_storage, sizeof(product), 1, file_storage) == 1) {
+        current_storage++;
+        products_in_storage++;
+    }
+
+    order* orders = (order *) malloc(10 * sizeof(order));
+    order* current_orders = orders;
+
+    int orders_amount = 0;
+    while (fread(current_orders, sizeof(order), 1, file_order) == 1) {
+        current_orders++;
+        orders_amount++;
+    }
+
+    fclose(file_order);
+    fclose(file_storage);
+
+    updateStorage(storage, orders, products_in_storage, orders_amount);
+
+    file_storage = fopen(file_storage_name, "wb");
+    for (int i = 0; i < products_in_storage; i++) {
+        if (storage[i].products_amount != 0){
+            fwrite( &storage[i], sizeof(product), 1, file_storage);
+        }
+    }
+    fclose(file_storage);
+    free(storage);
+    free(orders);
+}
+
+void test10(){
+
+    const char file_name[] = "aboba";
+    const char file_name2[] = "notaboba";
+    FILE* file = fopen(file_name, "wb");
+    FILE* file2 = fopen(file_name2, "wb");
+
+    product p1 = {.products_amount = 10, .price_per_one = 10, .total_prise = 100, .name = "milk"};
+    product p2 = {.products_amount = 20, .price_per_one = 6, .total_prise = 120, .name = "bread"};
+    product p3 = {.products_amount = 5, .price_per_one = 2, .total_prise = 10, .name = "egg"};
+
+    fwrite(&p1, sizeof(product), 1, file);
+    fwrite(&p2, sizeof(product), 1, file);
+    fwrite(&p3, sizeof(product), 1, file);
+
+    order o1 = {.products_in_order = 5, .name_order = "bread"};
+    order o2 = {.products_in_order = 5, .name_order = "egg"};
+
+    fwrite(&o1, sizeof(order), 1, file2);
+    fwrite(&o2, sizeof(order), 1, file2);
+
+    fclose(file);
+    fclose(file2);
+
+    updateStorageFile(file_name, file_name2);
+
+    file = fopen(file_name, "rb");
+    product res1;
+    product res2;
+
+    fread(&res1, sizeof(product), 1, file);
+    fread(&res2, sizeof(product), 1, file);
+
+    fclose(file);
+
+    assert(res1.products_amount == 10);
+    assert(res1.total_prise == 100);
+    assert(res2.products_amount == 15);
+    assert(res2.total_prise == 90);
+}
+
 //test
 void test(){
     test1();
@@ -872,9 +974,11 @@ void test(){
     test7();
     test8();
     test9();
+    test10();
 }
 
 int main() {
     test();
+
     return 0;
 }
