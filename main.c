@@ -781,6 +781,87 @@ void test8(){
     }
 }
 
+//9
+typedef struct {
+    char* initials;
+    int score;
+} sportsman;
+
+void sortSportsman(sportsman* sm, const int n) {
+    for (int i = 0; i < n; i++){
+        for (int j = 0; j < n - i - 1; j++) {
+            if (sm[j].score < sm[j + 1].score) {
+                sportsman copy = sm[j];
+                sm[j] = sm[j + 1];
+                sm[j + 1] = copy;
+            }
+        }
+    }
+}
+
+void makeTeamFile(const char* filename, const int number_in_team){
+    FILE* file = fopen(filename, "rb");
+
+    sportsman* team = (sportsman*) malloc(INT_MAX * sizeof(sportsman));
+    sportsman* current = team;
+
+    int number_sportsman = 0;
+    while (fread(current, sizeof(sportsman), 1, file) == 1) {
+        current++;
+        number_sportsman++;
+    }
+
+    fclose(file);
+    file = fopen(filename, "wb");
+
+    sortSportsman(team, number_sportsman);
+    for (int i = 0; i < number_in_team; i++)
+        fwrite(team + i, sizeof(sportsman), 1, file);
+
+    free(team);
+    fclose(file);
+}
+
+void test9(){
+    const char file_name[] = "aboba";
+    FILE* file = fopen(file_name, "wb");
+
+    sportsman s1 = {.score = 24, .initials = "Casca"};
+    sportsman s2 = {.score = 10, .initials = "Serpico"};
+    sportsman s3 = {.score = 40, .initials = "Guts"};
+    sportsman s4 = {.score = 9, .initials = "Farnese"};
+    sportsman s5 = {.score = 2, .initials = "Puck"};
+    sportsman s6 = {.score = 20, .initials = "Schierke"};
+    sportsman s7 = {.score = 5, .initials = "Isidro"};
+
+    fwrite(&s1, sizeof(sportsman), 1, file);
+    fwrite(&s2, sizeof(sportsman), 1, file);
+    fwrite(&s3, sizeof(sportsman), 1, file);
+    fwrite(&s4, sizeof(sportsman), 1, file);
+    fwrite(&s5, sizeof(sportsman), 1, file);
+    fwrite(&s6, sizeof(sportsman), 1, file);
+    fwrite(&s7, sizeof(sportsman), 1, file);
+
+    fclose(file);
+
+    makeTeamFile(file_name, 3);
+
+    file = fopen(file_name, "rb");
+    sportsman answer1;
+    sportsman answer2;
+    sportsman answer3;
+
+    fread(&answer1, sizeof(sportsman), 1, file);
+    fread(&answer2, sizeof(sportsman), 1, file);
+    fread(&answer3, sizeof(sportsman), 1, file);
+
+    fclose(file);
+
+    assert(strcmp(s3.initials, answer1.initials) == 0 && s3.score == answer1.score);
+    assert(strcmp(s1.initials, answer2.initials) == 0 && s1.score == answer2.score);
+    assert(strcmp(s6.initials, answer3.initials) == 0 && s6.score == answer3.score);
+}
+
 //test
 void test(){
     test1();
@@ -790,10 +871,10 @@ void test(){
     test5();
     test7();
     test8();
+    test9();
 }
 
 int main() {
     test();
-
     return 0;
 }
