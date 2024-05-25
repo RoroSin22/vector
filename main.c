@@ -209,19 +209,70 @@ void countInteractionsDomain(domain* arr, int size) {
     outputArraysDomains(results, size_res);
 }
 
+//5
+int CountSubMatricesOnlyOnes(matrix m){
+    int sum = 0;
+
+    for (int i = 0; i < m.nRows; i++){
+        int *nums = (int*) malloc(m.nCols * sizeof(int));
+        for (int j = 0; j < m.nCols; j++){
+            if (m.values[i][j] == 0)
+                nums[j] = 0;
+            else if (j == 0)
+                nums[j] = 1;
+            else{
+                nums[j] = nums[j - 1] + 1;
+                sum += nums[j - 1] + 1;
+            }
+
+            int min = INT_MAX;
+            for (int k = j; k < m.nCols; k++)
+                min = nums[k] < min ? nums[k] : min;
+            sum += min;
+        }
+    }
+
+    return sum;
+}
+
+void test_task_5_1() {
+    matrix m = createMatrixFromArray((int[]) {
+                                               1, 0, 1,
+                                               1, 1, 0,
+                                               1, 1, 0},
+                                       3, 3);
+    int answer = CountSubMatricesOnlyOnes(m);
+    freeMemMatrix(&m);
+
+    assert( answer == 13);
+
+}
+
+void test_task_5_2(){
+    matrix m = createMatrixFromArray((int[]) {
+                                               0, 0, 0,
+                                               0, 0, 0},
+                                       2, 3);
+    int answer = CountSubMatricesOnlyOnes(m);
+    freeMemMatrix(&m);
+
+    assert(answer == 0);
+}
+
+void test_task_5() {
+    test_task_5_1();
+    test_task_5_2();
+}
+
 void test(){
     test_task1();
     test_task2();
     test_task3();
+    test_task_5();
 }
 
 int main() {
-    int size = 4;
-    domain arr[4] = {{900, "google.mail.com"},
-                     {50, "yahoo.com"},
-                     {1, "intel.mail.com"},
-                     {5, "wiki.org"}};
-    countInteractionsDomain(arr, size);
+    test();
 
     return 0;
 }
