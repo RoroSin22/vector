@@ -145,6 +145,70 @@ void test_task3(){
     freeMemMatrix(&res);
 }
 
+//4
+typedef struct domain {
+    int visits;
+    char name[1024];
+} domain;
+
+int findDomain(const domain *results, int size, char *s) {
+    for (int index = 0; index < size; index++) {
+        if (strcmp(results[index].name, s) == 0)
+            return index;
+    }
+
+    return size;
+}
+
+bool find_number_in_arr(int* array, int length, int num) {
+    for (int index = 0; index < length; index++){
+        if (num == array[index])
+            return true;
+    }
+    return false;
+}
+
+void handlerDotPrtNotNull(domain* array, int index, char* dotPtr, domain* results, int* sizeResult) {
+    strcpy(array[index].name, dotPtr + 1);
+    int position = findDomain(results, *sizeResult, array[index].name);
+
+    if (position == *sizeResult) {
+        results[*sizeResult] = array[index];
+        *sizeResult += 1;
+    } else
+        results[position].visits += array[index].visits;
+}
+
+void outputArraysDomains(domain *results, int size) {
+    for (int index = 0; index < size; index++)
+        printf("%d %s\n", results[index].visits, results[index].name);
+}
+
+void countInteractionsDomain(domain* arr, int size) {
+    int close_index_size[size];
+    int count_close = 0;
+    domain results[1024];
+    int size_res = 0;
+    for (int ind = 0; ind < size; ind++)
+        results[size_res++] = arr[ind];
+
+    while (count_close != size) {
+        for (int index = 0; index < size; index++) {
+            if (!find_number_in_arr(close_index_size, count_close, index)) {
+                char *dot_ptr;
+                dot_ptr = strchr(arr[index].name, '.');
+
+                if (dot_ptr != NULL)
+                    handlerDotPrtNotNull(arr, index, dot_ptr, results, &size_res);
+                else
+                    close_index_size[count_close++] = index;
+            }
+        }
+    }
+
+    outputArraysDomains(results, size_res);
+}
+
 void test(){
     test_task1();
     test_task2();
@@ -152,7 +216,12 @@ void test(){
 }
 
 int main() {
-    test();
+    int size = 4;
+    domain arr[4] = {{900, "google.mail.com"},
+                     {50, "yahoo.com"},
+                     {1, "intel.mail.com"},
+                     {5, "wiki.org"}};
+    countInteractionsDomain(arr, size);
 
     return 0;
 }
