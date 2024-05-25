@@ -38,6 +38,8 @@ void test_task1(){
                                                0, 1, 1},
                                        3, 3);
     assert(areTwoMatricesEqual(&res, &exp));
+    freeMemMatrix(&res);
+    freeMemMatrix(&exp);
 }
 
 //2
@@ -92,14 +94,65 @@ void test_task2(){
                                      4, 3);
     gameOfLife(m);
     assert(areTwoMatricesEqual(&m, &res));
+    freeMemMatrix(&m);
+    freeMemMatrix(&res);
+}
+
+//3
+int compare (const void * a, const void * b){
+    return ( *(int*)a - *(int*)b );
+}
+
+int getMedian(matrix m, int index_row, int index_col){
+    int array_window[8];
+
+    array_window[0] = m.values[index_row - 1][index_col - 1];
+    array_window[1] = m.values[index_row - 1][index_col];
+    array_window[2] = m.values[index_row - 1][index_col + 1];
+    array_window[3] = m.values[index_row][index_col - 1];
+    array_window[4] = m.values[index_row][index_col + 1];
+    array_window[5] = m.values[index_row + 1][index_col - 1];
+    array_window[6] = m.values[index_row + 1][index_col];
+    array_window[7] = m.values[index_row + 1][index_col + 1];
+
+    qsort(array_window, 8, sizeof(int), compare);
+
+    return (array_window[3] + array_window[4]) / 2;
+}
+
+void medianFilter(matrix m){
+    for(int i = 1; i < m.nRows - 1; i++){
+        for(int j = 1; j < m.nCols - 1; j++)
+            m.values[i][j] = getMedian(m, i, j);
+    }
+
+}
+
+void test_task3(){
+    matrix m = createMatrixFromArray((int[]) {
+                                             10, 20, 30,
+                                             25, 35, 45,
+                                             15, 25, 35},
+                                     3, 3);
+    matrix res = createMatrixFromArray((int[]) {
+                                             10, 20, 30,
+                                             25, 25, 45,
+                                             15, 25, 35},
+                                     3, 3);
+    medianFilter(m);
+    assert(areTwoMatricesEqual(&m, &res));
+    freeMemMatrix(&m);
+    freeMemMatrix(&res);
 }
 
 void test(){
     test_task1();
     test_task2();
+    test_task3();
 }
 
 int main() {
     test();
+
     return 0;
 }
