@@ -337,15 +337,50 @@ branch* makeTree(int* numbers, int numbers_size) {
     return makeTree_(numbers, 0, numbers_size - 1);
 }
 
-void print_tree(branch* root) {
+void printTree(branch* root) {
     if (root != NULL) {
         printf("%d ", root->value);
-        print_tree(root->left);
-        print_tree(root->right);
+        printTree(root->left);
+        printTree(root->right);
     } else
         printf("null ");
 }
 
+//8
+void swapLettersByIndexes(char *s, int len, int *indexes) {
+    char temp[len];
+    for (int i = 0; i < len; i++)
+        temp[i] = s[indexes[i]];
+    temp[len] = '\0';
+    memcpy(s, temp, sizeof(char) * len);
+}
+
+void test_task_8_1() {
+    char str[4] = "abc";
+    int len_str = 3;
+    int indices[3] = {0, 1, 2};
+
+    swapLettersByIndexes(str, len_str, indices);
+
+    char answer[4] = "abc";
+    assert(strcmp(str, answer) == 0);
+}
+
+void test_task_8_2() {
+    char str[5] = "abap";
+    int len_str = 4;
+    int indices[4] = {0, 3, 2, 1};
+
+    swapLettersByIndexes(str, len_str, indices);
+
+    char answer[5] = "apab";
+    assert(strcmp(str, answer) == 0);
+}
+
+void test_task_8_all() {
+    test_task_8_1();
+    test_task_8_2();
+}
 
 void test(){
     test_task1();
@@ -353,13 +388,10 @@ void test(){
     test_task3();
     test_task_5();
     test_task_6();
+    test_task_8_all();
 }
 
 int main() {
-    int numbers[6] = {3, 2, 1, 6, 0, 5};
-    int len = 6;
-    branch* res = makeTree(numbers, len);
-    print_tree(res);
-
+    test();
     return 0;
 }
