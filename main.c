@@ -1,5 +1,6 @@
 #include "libs/matrix.h"
 #include "libs/string_.h"
+#include <conio.h>
 
 //1
 void matrixToZero(matrix m){
@@ -423,6 +424,32 @@ void test_task_9() {
     fclose(file);
 }
 
+//10
+void showStringsFile() {
+    char* file_name;
+    int count_output_lines;
+    printf("enter file name\n");
+    scanf("%s", file_name);
+    printf("enter how many lines at ones\n");
+    scanf("%d", &count_output_lines);
+
+    FILE* file = fopen(file_name, "r");
+    char line[128];
+    int counter = 0;
+
+    while (fgets(line, 128, file) != NULL) {
+        printf("%s", line);
+        counter++;
+        if (counter == count_output_lines) {
+            printf("Press C for more\n");
+            counter = 0;
+            while (getch() != 'c');
+        }
+    }
+
+    fclose(file);
+}
+
 void test(){
     test_task1();
     test_task2();
@@ -434,7 +461,12 @@ void test(){
 }
 
 int main() {
-    test();
+    FILE* f = fopen("name", "w");
+    char text[100] = "SEE\n!\nI\nreally\ntested\nthis\nfunction\n";
+    fprintf(f, "%s", text);
+
+    fclose(f);
+    showStringsFile();
 
     return 0;
 }
