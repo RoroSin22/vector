@@ -311,6 +311,42 @@ void test_task_6() {
     test_task_6_2();
 }
 
+//7
+
+typedef struct branch {
+    int value;
+    struct branch* left;
+    struct branch* right;
+} branch;
+
+branch* makeTree_(int *numbers, int left, int right) {
+    if (left > right)
+        return NULL;
+    int max_index = left;
+    for (int i = left; i <= right; i++)
+        if (numbers[i] > numbers[max_index]) max_index = i;
+
+    branch* root = (branch*)malloc(sizeof(branch));
+    root->value = numbers[max_index];
+    root->left = makeTree_(numbers, left, max_index - 1);
+    root->right = makeTree_(numbers, max_index + 1, right);
+    return root;
+}
+
+branch* makeTree(int* numbers, int numbers_size) {
+    return makeTree_(numbers, 0, numbers_size - 1);
+}
+
+void print_tree(branch* root) {
+    if (root != NULL) {
+        printf("%d ", root->value);
+        print_tree(root->left);
+        print_tree(root->right);
+    } else
+        printf("null ");
+}
+
+
 void test(){
     test_task1();
     test_task2();
@@ -320,6 +356,10 @@ void test(){
 }
 
 int main() {
-    test();
+    int numbers[6] = {3, 2, 1, 6, 0, 5};
+    int len = 6;
+    branch* res = makeTree(numbers, len);
+    print_tree(res);
+
     return 0;
 }
