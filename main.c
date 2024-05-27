@@ -382,6 +382,47 @@ void test_task_8_all() {
     test_task_8_2();
 }
 
+//9
+void writeSmallerThanN(char *reading_file_name, char *writing_file_name, int n) {
+    FILE *reading_file = fopen(reading_file_name, "r");
+    FILE *writing_file = fopen(writing_file_name, "w+");
+
+    int number;
+    while (fscanf(reading_file, "%d", &number) == 1) {
+        if (number < n)
+            fprintf(writing_file, "%d ", number);
+    }
+
+    fclose(reading_file);
+    fclose(writing_file);
+}
+
+void test_task_9() {
+    int array[10] = {10, 34, 23, 89, 54, 44, 21, 12, 29,6} ;
+    int len_array = 10;
+
+    int n = 25;
+    char *first_file = "read";
+    char *second_file = "write";
+    FILE* file = fopen(first_file, "w");
+    for (int i = 0; i < len_array; i++)
+        fprintf(file, "%d ", array[i]);
+    fclose(file);
+
+    writeSmallerThanN(first_file, second_file, n);
+
+    int answer[5] = {10, 23, 21, 12, 6};
+
+    file = fopen(second_file, "r");
+    int number;
+    int counter = 0;
+    while (fscanf(file, "%d", &number) == 1) {
+        assert(number == answer[counter]);
+        counter++;
+    }
+    fclose(file);
+}
+
 void test(){
     test_task1();
     test_task2();
@@ -389,9 +430,11 @@ void test(){
     test_task_5();
     test_task_6();
     test_task_8_all();
+    test_task_9();
 }
 
 int main() {
     test();
+
     return 0;
 }
