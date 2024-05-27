@@ -1,4 +1,5 @@
 #include "libs/matrix.h"
+#include "libs/string_.h"
 
 //1
 void matrixToZero(matrix m){
@@ -264,15 +265,61 @@ void test_task_5() {
     test_task_5_2();
 }
 
+//6
+
+void indexToNumberStr(const char *str, char *result) {
+    char buff[10];
+    int str_len = strlen(str);
+    size_t buff_length = 0;
+    size_t calculated_res_length = 0;
+    char num = '1';
+
+    for (size_t index = 0; index < str_len; index++) {
+        buff[buff_length++] = num++;
+        if (str[index] == 'I')
+            while (buff_length > 0)
+                result[calculated_res_length++] = buff[--buff_length];
+    }
+    buff[buff_length++] = num;
+    while (buff_length > 0)
+        result[calculated_res_length++] = buff[--buff_length];
+    result[calculated_res_length] = '\0';
+}
+
+void test_task_6_1() {
+    char s[10] = "IIIDIDDD";
+    char res[10];
+
+    indexToNumberStr(s, res);
+    char answer[10] = "123549876";
+
+    assert(strcmp(res, answer) == 0);
+}
+
+void test_task_6_2() {
+    char s[5] = "DDD";
+    char res[5];
+
+    indexToNumberStr(s, res);
+    char answer[10] = "4321";
+
+    assert(strcmp(res, answer) == 0);
+}
+
+void test_task_6() {
+    test_task_6_1();
+    test_task_6_2();
+}
+
 void test(){
     test_task1();
     test_task2();
     test_task3();
     test_task_5();
+    test_task_6();
 }
 
 int main() {
     test();
-
     return 0;
 }
