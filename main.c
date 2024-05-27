@@ -450,6 +450,48 @@ void showStringsFile() {
     fclose(file);
 }
 
+//11
+char** getDictionary(int*  requests_amount, int* dictionary_size){
+    scanf("%d %d", dictionary_size, requests_amount);
+    char** dictionary = (char **) malloc(sizeof(char*) * *dictionary_size);
+
+    for (int i = 0; i < *dictionary_size; i++)
+        dictionary[i] = (char *) malloc(sizeof(char) * 5);
+
+    for(int i = 0; i < *dictionary_size; i++)
+        scanf("%s", dictionary[i]);
+
+    return dictionary;
+}
+
+void findByFirstLetters(char** dictionary, int dictionary_size, char* first_letters, int find_number){
+    int counter = 0;
+
+    for(int i = 0; i < dictionary_size; i++){
+        if(strstr(dictionary[i], first_letters) != NULL){
+            counter++;
+            if(counter == find_number){
+                printf("%d\n", i + 1);
+                return;
+            }
+        }
+    }
+    printf("-1");
+}
+
+void outputRequestDictionary(){
+    int  requests_amount;
+    int dictionary_size;
+    char** dictionary = getDictionary(&requests_amount, &dictionary_size);
+
+    for (int i = 0; i < requests_amount; i++){
+        char first_letters[5];
+        int find_number;
+        scanf("%d %s", &find_number, first_letters);
+        findByFirstLetters(dictionary, dictionary_size, first_letters, find_number);
+    }
+}
+
 void test(){
     test_task1();
     test_task2();
@@ -461,12 +503,6 @@ void test(){
 }
 
 int main() {
-    FILE* f = fopen("name", "w");
-    char text[100] = "SEE\n!\nI\nreally\ntested\nthis\nfunction\n";
-    fprintf(f, "%s", text);
-
-    fclose(f);
-    showStringsFile();
-
+    outputRequestDictionary();
     return 0;
 }
