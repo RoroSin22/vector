@@ -1,9 +1,6 @@
 #include "libs/matrix.h"
 
 bool areLinesEqual(int* line_one, int* line_two, int n){
-    if (n <= 0)
-        return 0;
-
     return memcmp(line_one, line_two, sizeof(int) * n) == 0;
 }
 
